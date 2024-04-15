@@ -9,20 +9,18 @@ const tokenService = require('../services/tokenService');
 
 class AuthService {
 
-    async registration(login, password, email) {
+    async registration(firstName, surname, password, email) {
         const candidateEmail = await User.findOne({ where: { email: email } });
-        const candidateLogin = await User.findOne({ where: { login: login } });
 
         if (candidateEmail) {
             throw ApiError.badRequest(`User with ${email} is already exist.`);
-        } else if (candidateLogin) {
-            throw ApiError.badRequest(`User with this username (${username}) is already exist.`);
         }
 
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = uuid.v4();
         const user = await User.create({
-            login: login,
+            first_name: firstName,
+            surname: surname,
             password: hashPassword,
             email: email
         });
@@ -95,9 +93,8 @@ class AuthService {
         }
         const extractedUser = await tokenService.validateRefreshToken(refreshToken);
         const userData = tokenService.validateRefreshToken(refreshToken);
-        const tokenFromDb = await tokenService.findTokenInDB(refreshToken, extractedUser.sessionId);
 
-        if (!userData || !tokenFromDb) {
+        if (!userData) {
             throw ApiError.unauthorizedError()
         }
         const user = await User.findOne({ where: { id: userData.id } });
@@ -121,7 +118,7 @@ class AuthService {
         const resetLink = `${uuid.v4()}_${timestamp}`;
         const userLinks = await Links.findOne({ where: { user_id: user.id } });
         userLinks.reset_password_link = resetLink;
-        userLinks.save();
+        await userLinks.save();
         await mailService.sendResetLink(`${process.env.API_URL}/api/auth/password-reset/${resetLink}`, email);
     }
 
@@ -148,8 +145,8 @@ class AuthService {
         const hashPassword = await bcrypt.hash(newPassword, 3);
         user.password = hashPassword;
         userLinks.reset_password_link = null;
-        user.save();
-        userLinks.save();
+        await user.save();
+        await userLinks.save();
     }
 }
 
