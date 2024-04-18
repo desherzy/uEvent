@@ -1,4 +1,5 @@
 import useAuthStore from './auth';
+import useCompaniesStore from "./companies.js";
 
 
-export { useAuthStore };
+export { useAuthStore, useCompaniesStore };

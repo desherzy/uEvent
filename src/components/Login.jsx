@@ -10,9 +10,9 @@ function Login() {
     const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
-    if (isAuthenticated === true) {
-        navigate("/settings", {replace: true});
-    }
+        if (isAuthenticated === true) {
+            navigate("/settings", {replace: true});
+        }
     }, [isAuthenticated]);
 
     useEffect(() => {
@@ -38,12 +38,38 @@ function Login() {
     }};
 
     return (
-        <div>
-            <h1>Login Page</h1>
+        <div className="bg-white p-8 rounded-md shadow-md">
+            <h1 className="text-3xl font-bold mb-4">Login Page</h1>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="email" value={formData.email} onChange={handleChange}/>
-                <input type="password" name="password" value={formData.password} onChange={handleChange}/>
-                <button type="submit">Login</button>
+                <div className="mb-4">
+                    <label htmlFor="email" className="block mb-2 text-gray-600">
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="password" className="block mb-2 text-gray-600">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400"
+                    />
+                </div>
+                <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Login
+                </button>
             </form>
         </div>
     );

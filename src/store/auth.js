@@ -81,9 +81,9 @@ const useAuthStore = create((set) => ({
         try {
           const formData = new FormData();
           formData.append('photo', file);
-    
+
           const response = await $api.patch('/users/avatar', formData);
-    
+
           const { profileImage } = response.data;
           set((state) => ({
             ...state,
@@ -92,22 +92,23 @@ const useAuthStore = create((set) => ({
               profileImage: profileImage,
             },
           }));
-  
+
         } catch (error) {
           console.error('Error uploading avatar:', error);
         }
       },
-      
-      updateUser: async (updated) => {
+
+      updateUser: async (updatedFields) => {
         try {
-          const response = await $api.patch('/users/update', { login: updated });
+          const response = await $api.patch('/users/update',  updatedFields);
     
-          const { login } = response.data;
+          const { surname, firstName } = response.data;
           set((state) => ({
             ...state,
             user: {
               ...state.user,
-              login: login,
+              surname: surname,
+              firstName: firstName,
             },
           }));
   
