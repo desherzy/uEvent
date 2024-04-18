@@ -60,7 +60,7 @@ class UserController {
             const filePath = path.join(uploadDir, fileName);
             await photo.mv(filePath);
             const imageUrl = `${process.env.API_URL}/public/usersAvatars/${fileName}`;
-            console.log(imageUrl)
+
             const updatedUser = await userService.uploadUserPhoto(userId, imageUrl);
             res.json(updatedUser);
         } catch (e) {

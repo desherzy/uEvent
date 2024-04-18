@@ -33,4 +33,5 @@ const UserCompany = sequelize.define('UserCompany', {
     timestamps: false
 });
 
+
 module.exports = UserCompany;
