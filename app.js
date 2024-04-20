@@ -10,6 +10,7 @@ const cors = require('cors');
 const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
 const companyRouter = require('./routes/companyRoutes');
+const eventRouter = require('./routes/eventRoutes');
 
 initializeDatabase();
 
@@ -33,6 +34,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/company', companyRouter);
+app.use('/api/event', eventRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}/`);
