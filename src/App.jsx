@@ -9,6 +9,8 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import Header from "./components/Header.jsx";
 import CompaniesList from "./components/CompaniesList.jsx";
 import CompanyPage from "./components/CompanyPage.jsx";
+import EventsPage from "./components/EventsPage.jsx";
+import EventPage from "./components/EventPage.jsx";
 
 function App() {
     const { isAuthenticated, emailConfirmed, refreshUser } = useAuthStore();
@@ -53,6 +55,8 @@ function App() {
                     <Route path='/' element={<Main />} />
                     <Route path='/settings' element={<PrivateRoute> <Settings /> </PrivateRoute>} />
                     <Route path='/companies' element={<CompaniesList />} />
+                    <Route path='/events' element={<EventsPage />} />
+                    <Route path='/events/:eventId' element={<EventPage />} />
                     <Route path='/company/:companyId' element={<CompanyPage />} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>

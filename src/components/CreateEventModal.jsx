@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import useEventsStore from "../store/events.js";
 
-const CreateEventModal = ({ isOpen, onClose }) => {
+const CreateEventModal = ({ isOpen, onClose, companyId }) => {
+    const { createEvent } = useEventsStore();
     const [eventName, setEventName] = useState('');
     const [description, setDescription] = useState('');
     const [startTime, setStartTime] = useState('');
@@ -9,22 +11,12 @@ const CreateEventModal = ({ isOpen, onClose }) => {
     const [ticketPrice, setTicketPrice] = useState(0);
     const [bannerImage, setBannerImage] = useState(null);
     const [eventImage, setEventImage] = useState(null);
+    const category = "Sport"
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const eventData = {
-            eventName,
-            description,
-            startTime,
-            endTime,
-            ticketCount,
-            ticketPrice,
-            bannerImage,
-            eventImage
-        };
-
-        console.log(eventData);
+        await createEvent( {companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, category, bannerImage, eventImage });
 
         onClose();
     };

@@ -86,7 +86,7 @@ const CompanyPage = () => {
                     </form>
 
                     <button className="text-xl font-semibold mt-8 mb-4" onClick={handleCreateEventClick}>Create Event</button>
-                    <CreateEventModal isOpen={isCreateEventModalOpen} onClose={handleCloseModal}/>
+                    <CreateEventModal isOpen={isCreateEventModalOpen} onClose={handleCloseModal} companyId={companyId}/>
 
                 </div>
             )}
