@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../dbConfig');
+const Event = require('./Event');
+const EventCategory = require('./EventCategory');
 
 const Category = sequelize.define('Category', {
     id: {
@@ -15,5 +17,6 @@ const Category = sequelize.define('Category', {
     tableName: 'categories',
     timestamps: false
 });
+
 
 module.exports = Category;

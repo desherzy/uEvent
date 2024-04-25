@@ -25,4 +25,5 @@ const EventCategory = sequelize.define('EventCategory', {
     timestamps: false
 });
 
+
 module.exports = EventCategory;

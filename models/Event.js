@@ -31,11 +31,11 @@ const Event = sequelize.define('Event', {
         type: DataTypes.STRING
     },
     start_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false
     },
     end_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false
     },
     company_id: {
@@ -49,5 +49,6 @@ const Event = sequelize.define('Event', {
     tableName: 'events',
     timestamps: true
 });
+
 
 module.exports = Event;

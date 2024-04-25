@@ -1,6 +1,9 @@
 const { sequelize } = require('./dbConfig');
 const User = require('./models/User');
+const Event = require('./models/Event');
 const Tokens = require('./models/Tokens');
+const Category = require('./models/Category');
+const EventCategory = require('./models/EventCategory');
 const Links = require('./models/Links');
 const Company = require('./models/Company');
 const CompanyRoles = require('./models/CompanyRoles');
@@ -11,7 +14,11 @@ async function initializeDatabase() {
         await sequelize.authenticate();
         console.log('Connection to the database has been established successfully.');
 
+
         await User.sync({ alter: true });
+        await Event.sync({ alter: true });
+        await Category.sync({ alter: true });
+        await EventCategory.sync({ alter: true });
         await Company.sync({ alter: true });
         await CompanyRoles.sync({ alter: true });
         await UserCompany.sync({ alter: true });
