@@ -1,15 +1,33 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
 import useEventsStore from "../store/events.js";
 
 const EventPage = () => {
     const { eventId } = useParams();
-    const { events } = useEventsStore();
+    const { events, buyTicket } = useEventsStore();
     const event = events.find(ev => ev.id === parseInt(eventId));
+    const [notification, setNotification] = useState(null);
+
+    const handleBuyTicket = async () => {
+        try {
+            await buyTicket(eventId);
+            setNotification('Ticket successfully bought!');
+            setTimeout(() => setNotification(null), 3000);
+        } catch (error) {
+            console.error('Error buying ticket:', error);
+            setNotification('Failed to buy ticket. Please try again later.');
+            setTimeout(() => setNotification(null), 3000);
+        }
+    };
 
 
     return (
         <div className="container mx-auto px-4 py-16">
+            {notification && (
+                <div className="fixed top-1 right-0 transform -translate-x-1/2 bg-blue-50 border border-blue-300 rounded p-2 z-10">
+                    <p className="text-gray-800">{notification}</p>
+                </div>
+            )}
             <div className="relative mt-3">
                 <img
                     src={event.banner_image}
@@ -64,7 +82,7 @@ const EventPage = () => {
                 </div>
             </div>
             <div className="mt-8">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button onClick={handleBuyTicket} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Buy Ticket
                 </button>
             </div>

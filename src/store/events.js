@@ -3,6 +3,7 @@ import $api from '../axios';
 
 const useEventsStore = create((set) => ({
     events: [],
+    tickets: [],
 
     createEvent: async ({ companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, category, bannerImage, eventImage }) => {
         try {
@@ -48,6 +49,20 @@ const useEventsStore = create((set) => ({
         }
     },
 
+    buyTicket: async (eventId) => {
+        try {
+            const response = await $api.post(`/event/ticket/${eventId}`);
+            const ticketData = await response.data;
+
+            set((state) => ({
+                tickets: [...state.tickets, ticketData]
+            }));
+
+
+        } catch (error) {
+            console.error('Error registering user:', error);
+        }
+    },
 
 
 }));
