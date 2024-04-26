@@ -4,6 +4,7 @@ const router = new Router();
 const eventController = require('../controllers/eventController');
 
 router.post('/', authMiddleware, eventController.createEvent);
+router.post('/ticket/:id', authMiddleware, eventController.createTicket);
 router.get('/', eventController.getEvents);
 router.get('/:id', eventController.getEvent);
 router.get('/user/:id', eventController.getSubscribedEvents);

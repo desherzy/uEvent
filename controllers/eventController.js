@@ -30,6 +30,18 @@ class EventController {
         }
     }
 
+    async createTicket(req, res, next) {
+        try {
+            const userId = req.user.id;
+            const eventId = req.params.id;
+
+            const ticket = await eventService.createTicket(userId, eventId);
+            res.json(ticket);
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async  createEvent(req, res, next) {
         try {
             const { companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, category } = req.body;

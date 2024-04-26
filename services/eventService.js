@@ -1,6 +1,8 @@
 const Event = require('../models/Event');
 const Category = require('../models/Category');
 const EventCategory  = require('../models/EventCategory');
+const Ticket = require('../models/Ticket');
+const ApiError = require("../exceptions/apiError");
 
 class EventService {
     async getEvent(id){
@@ -28,6 +30,26 @@ class EventService {
 
     async getSubscribedEvents(userId){
 
+    }
+
+    async createTicket(userId, eventId){
+        const existingTicket = await Ticket.findOne({
+            where: {
+                user_id: userId,
+                event_id: eventId
+            }
+        });
+
+        if (existingTicket) {
+            throw ApiError.badRequest("Ticket already exists for this user and event");
+        }
+
+        const ticket = await Ticket.create({
+            user_id: userId,
+            event_id: eventId
+        });
+
+        return ticket;
     }
 
     async createEvent(companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, bannerImageUrl, eventImageUrl, categoryName){
