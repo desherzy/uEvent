@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/auth';
 
+
+import { Button, Box, Heading, Text, FormControl, Input, FormErrorMessage } from '@chakra-ui/react';
+import { Link as ReactRouterLink } from 'react-router-dom';
+import { Link as ChakraLink } from '@chakra-ui/react'
+import Image from '../assets/background.jpg';
+
 function Login() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -37,40 +43,55 @@ function Login() {
         setShowAlert(true);
     }};
 
+    const handleForgotPassword = () => {
+        navigate('/forgot-password'); //TODO: need end point
+    };
+
     return (
-        <div className="bg-white p-8 rounded-md shadow-md">
-            <h1 className="text-3xl font-bold mb-4">Login Page</h1>
+        <div style={{
+            backgroundImage: `url(${Image})`,
+            backgroundSize: 'cover',
+            minHeight: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '20px',
+            filter: 'blur(0px)',
+        }} display="flex">
+            <Box w='20%' h='550px' borderRadius='1rem 0 0 1rem' p={12} backgroundColor='#49AA87' overflowY="auto">
+            <Heading textAlign='center' fontSize={24} mb={4}>Welcome back!</Heading>
+            <Text fontSize={18} textAlign='center' w='95%'>
+                Welcome back! Here, you can find tickets to the best events and gatherings in your city. Join our community to access exciting events and unforgettable experiences. Choose your favorite event today and get ready for a great time with us!
+            </Text>
+            </Box>
+            <Box w='25%' h='550px' borderRadius='0 1rem 1rem 0' p={10} backgroundColor='#E2E8F0' textAlign="center">
+            <Heading textAlign='center' fontSize={30} mb={4}>Sign In</Heading>
             <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                    <label htmlFor="email" className="block mb-2 text-gray-600">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="password" className="block mb-2 text-gray-600">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400"
-                    />
-                </div>
-                <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Login
-                </button>
+            <FormControl id="email" mb={4} borderColor='black'>
+                
+                <Input type="email" 
+                        name="email" 
+                        value={formData.email} 
+                        onChange={handleChange} 
+                        placeholder="Email"/>
+                </FormControl>
+                
+                <FormControl id="password" mb={4} borderColor='black'>
+                    <Input type="password" 
+                            name="password" 
+                            value={formData.password} 
+                            onChange={handleChange} 
+                            placeholder="Password"/>
+                </FormControl>
+
+                <Button type="submit" w='auto' color='#49AA87' alignSelf='center' m={3}>Continue</Button>
+                <Button type="button" w='auto' color='red' alignSelf='center' onClick={handleForgotPassword}>Forgot password? (don't work)</Button>
             </form>
+            <Box mt={3}>
+                <Text>Don't have an account?</Text>
+                <ChakraLink as={ReactRouterLink} to='/registration' textColor='blue'>Register here.</ChakraLink>
+            </Box>
+            </Box>
         </div>
     );
 }

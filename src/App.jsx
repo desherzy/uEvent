@@ -11,6 +11,7 @@ import CompaniesList from "./components/CompaniesList.jsx";
 import CompanyPage from "./components/CompanyPage.jsx";
 import EventsPage from "./components/EventsPage.jsx";
 import EventPage from "./components/EventPage.jsx";
+import { ChakraProvider } from '@chakra-ui/react';
 
 function App() {
     const { isAuthenticated, emailConfirmed, refreshUser } = useAuthStore();
@@ -46,9 +47,9 @@ function App() {
     }
 
 
-    return (
+    return ( //<Header/>
+        <ChakraProvider>
             <BrowserRouter>
-                <Header/>
                 <Routes>
                     <Route path='/registration' element={<Registration />} />
                     <Route path='/login' element={<Login />} />
@@ -61,7 +62,7 @@ function App() {
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </BrowserRouter>
-
+        </ChakraProvider>
     );
 }
 
