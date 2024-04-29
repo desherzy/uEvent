@@ -3,6 +3,7 @@ const Category = require('../models/Category');
 const EventCategory  = require('../models/EventCategory');
 const Ticket = require('../models/Ticket');
 const ApiError = require("../exceptions/apiError");
+const {where} = require("sequelize");
 
 class EventService {
     async getEvent(id){
@@ -28,8 +29,10 @@ class EventService {
         return events;
     }
 
-    async getSubscribedEvents(userId){
+    async getTickets(userId){
+        const userTickets = await Ticket.findAll({where: {user_id: userId}});
 
+        return userTickets;
     }
 
     async createTicket(userId, eventId){

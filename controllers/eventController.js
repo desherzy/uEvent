@@ -3,6 +3,17 @@ const fs = require('fs');
 const path = require('path');
 
 class EventController {
+
+    async getTickets(req, res, next) {
+        try {
+            const userId = req.user.id;
+            const tickets = await eventService.getTickets(userId);
+            res.json(tickets);
+        } catch(e) {
+            next(e);
+        }
+    }
+
     async getEvent(req, res, next) {
         try {
             const id = req.params.id;
@@ -22,13 +33,6 @@ class EventController {
         }
     }
 
-    async getSubscribedEvents(req, res, next) {
-        try {
-
-        } catch(e) {
-            next(e);
-        }
-    }
 
     async createTicket(req, res, next) {
         try {

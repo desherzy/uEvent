@@ -8,13 +8,28 @@ const Ticket = sequelize.define('Ticket', {
         type: DataTypes.ENUM('pending', 'confirmed', 'cancelled'),
         allowNull: false,
         defaultValue: 'pending'
+    },
+
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'User',
+            key: 'id'
+        }
+    },
+    event_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Event',
+            key: 'id'
+        }
     }
 }, {
     tableName: 'tickets',
     timestamps: true
 });
 
-Ticket.belongsTo(Event, { foreignKey: 'event_id', allowNull: false });
-Ticket.belongsTo(User, { foreignKey: 'user_id', allowNull: false });
 
 module.exports = Ticket;
