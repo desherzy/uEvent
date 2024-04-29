@@ -12,6 +12,7 @@ import CompanyPage from "./components/CompanyPage.jsx";
 import EventsPage from "./components/EventsPage.jsx";
 import EventPage from "./components/EventPage.jsx";
 import { ChakraProvider } from '@chakra-ui/react';
+import Image from './assets/background.jpg';
 
 function App() {
     const { isAuthenticated, emailConfirmed, refreshUser } = useAuthStore();
@@ -42,7 +43,18 @@ function App() {
 
     if (!emailConfirmed && isAuthenticated) {
         return (
-            <div> Please confirm email </div>
+            <div style={{
+                backgroundImage: `url(${Image})`,
+                backgroundSize: 'cover',
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '20px',
+                filter: 'blur(0px)',
+              }} display="flex"> 
+              Please confirm email
+            </div>
         );
     }
 
