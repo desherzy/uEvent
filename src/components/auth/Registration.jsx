@@ -6,6 +6,7 @@ import { Button, Box, Heading, Text, FormControl, Input, FormErrorMessage } from
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Link as ChakraLink } from '@chakra-ui/react'
 import Image from '../../assets/background.jpg';
+import Logo from '../../assets/Logo.png';
 
 function Registration() {
   const navigate = useNavigate();
@@ -57,6 +58,9 @@ function Registration() {
         filter: 'blur(0px)',
       }} display="flex">
         <Box w='20%' h='550px' borderRadius='1rem 0 0 1rem' p={12} backgroundColor='#49AA87' overflowY="auto">
+          <ReactRouterLink to="/">
+            <img src={Logo} alt="Logo" style={{ width: '90px', marginBottom: '20px', display: 'block', margin: 'auto' }} />
+          </ReactRouterLink>
           <Heading textAlign='center' fontSize={24} mb={4}>Welcome newbie!</Heading>
           <Text fontSize={18} textAlign='center' w='95%'>
             Welcome to our website! Here, you can find tickets to the best events and gatherings in your city. Join our community to access exciting events and unforgettable experiences. Choose your favorite event today and get ready for a great time with us!
