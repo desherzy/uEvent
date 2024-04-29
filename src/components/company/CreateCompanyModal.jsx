@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useCompaniesStore from "../store/companies.js";
+import useCompaniesStore from "../../store/companies.js";
 
 const CreateCompanyModal = ({ isOpen, onClose }) => {
     const { createCompany } = useCompaniesStore();

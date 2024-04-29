@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import useEventsStore from "../store/events.js";
+import useEventsStore from "../../store/events.js";
 import EventItem from "./EventItem.jsx";
 
 const EventsPage = () => {

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
-import useEventsStore from "../store/events.js";
+import useEventsStore from "../../store/events.js";
 
 const EventPage = () => {
     const { eventId } = useParams();

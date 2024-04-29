@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
-import {useCompaniesStore} from "../store/index.js";
-import CreateEventModal from "./CreateEventModal.jsx";
+import {useCompaniesStore} from "../../store/index.js";
+import CreateEventModal from "../event/CreateEventModal.jsx";
 
 const CompanyPage = () => {
     const { companyId } = useParams();

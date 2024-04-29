@@ -1,17 +1,18 @@
 import {useEffect, useState} from 'react'
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
 import {useAuthStore} from "./store/index.js";
-import Registration from "./components/Registration.jsx";
-import Login from "./components/Login.jsx";
+import Registration from "./components/auth/Registration.jsx";
+import Login from "./components/auth/Login.jsx";
 import Main from "./components/Main.jsx";
 import Settings from "./components/Settings.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import Header from "./components/Header.jsx";
-import CompaniesList from "./components/CompaniesList.jsx";
-import CompanyPage from "./components/CompanyPage.jsx";
-import EventsPage from "./components/EventsPage.jsx";
-import EventPage from "./components/EventPage.jsx";
+import CompaniesList from "./components/company/CompaniesList.jsx";
+import CompanyPage from "./components/company/CompanyPage.jsx";
+import EventsPage from "./components/event/EventsPage.jsx";
+import EventPage from "./components/event/EventPage.jsx";
 import { ChakraProvider } from '@chakra-ui/react';
+import TicketsPage from "./components/ticket/TicketsPage.jsx";
 
 function App() {
     const { isAuthenticated, emailConfirmed, refreshUser } = useAuthStore();
@@ -47,15 +48,17 @@ function App() {
     }
 
 
-    return ( //<Header/>
+    return (
         <ChakraProvider>
             <BrowserRouter>
+                {!['/login', '/registration'].includes(window.location.pathname) && <Header />}
                 <Routes>
                     <Route path='/registration' element={<Registration />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Main />} />
                     <Route path='/settings' element={<PrivateRoute> <Settings /> </PrivateRoute>} />
                     <Route path='/companies' element={<CompaniesList />} />
+                    <Route path='/tickets' element={<PrivateRoute> <TicketsPage /> </PrivateRoute>} />
                     <Route path='/events' element={<EventsPage />} />
                     <Route path='/events/:eventId' element={<EventPage />} />
                     <Route path='/company/:companyId' element={<CompanyPage />} />

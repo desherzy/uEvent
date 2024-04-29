@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useAuthStore, useCompaniesStore} from "../store/index.js";
-import CreateCompanyModal from "./CreateCompanyModal.jsx";
-import CompanyItem from "./CompanyItem.jsx";
+import CreateCompanyModal from "./company/CreateCompanyModal.jsx";
+import CompanyItem from "./company/CompanyItem.jsx";
 
 function Settings() {
     const { logoutUser, uploadAvatar, updateUser, user } = useAuthStore();

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useCompaniesStore} from "../store/index.js";
+import {useCompaniesStore} from "../../store/index.js";
 import CompanyItem from "./CompanyItem.jsx";
 
 

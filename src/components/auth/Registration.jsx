@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import useAuthStore from '../store/auth';
+import useAuthStore from '../../store/auth.js';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Box, Heading, Text, FormControl, Input, FormErrorMessage } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Link as ChakraLink } from '@chakra-ui/react'
-import Image from '../assets/background.jpg';
+import Image from '../../assets/background.jpg';
 
 function Registration() {
   const navigate = useNavigate();

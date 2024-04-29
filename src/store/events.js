@@ -49,6 +49,16 @@ const useEventsStore = create((set) => ({
         }
     },
 
+    fetchTickets: async () => {
+        try {
+            const response = await $api.get('/event/tickets');
+
+            set({ tickets: response.data });
+        } catch (error) {
+            console.error('Error registering user:', error);
+        }
+    },
+
     buyTicket: async (eventId) => {
         try {
             const response = await $api.post(`/event/ticket/${eventId}`);
@@ -64,6 +74,10 @@ const useEventsStore = create((set) => ({
         }
     },
 
+    getEventById: (id) => {
+        const event = useEventsStore.getState().events.find((event) => event.id === id);
+        return event;
+    },
 
 }));
 

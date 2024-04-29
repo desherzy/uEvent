@@ -21,6 +21,9 @@ const Header = () => {
                 <nav className="space-x-4">
                     <Link to="/events" className="hover:text-gray-300">Events</Link>
                     <Link to="/companies" className="hover:text-gray-300">Companies</Link>
+                    {isAuthenticated ? (
+                        <Link to="/tickets" className="hover:text-gray-300">Tickets</Link>
+                    ) : null}
                 </nav>
                 <div className="flex items-center">
                     {isAuthenticated ? (
@@ -30,9 +33,7 @@ const Header = () => {
                             </Link>
                         </>
                     ) : (
-                        <Link to="/login" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                            Log in
-                        </Link>
+                        <a href="http://localhost:5173/login" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Login</a>
                     )}
                 </div>
             </div>

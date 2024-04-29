@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useEventsStore from "../store/events.js";
+import useEventsStore from "../../store/events.js";
 
 const CreateEventModal = ({ isOpen, onClose, companyId }) => {
     const { createEvent } = useEventsStore();
