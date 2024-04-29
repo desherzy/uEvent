@@ -44,7 +44,7 @@ function Login() {
     }};
 
     const handleForgotPassword = () => {
-        navigate('/forgot-password'); //TODO: need end point
+        navigate('/password-reset'); //TODO: need end point
     };
 
     return (
@@ -61,7 +61,7 @@ function Login() {
             <Box w='20%' h='550px' borderRadius='1rem 0 0 1rem' p={12} backgroundColor='#49AA87' overflowY="auto">
             <Heading textAlign='center' fontSize={24} mb={4}>Welcome back!</Heading>
             <Text fontSize={18} textAlign='center' w='95%'>
-                Welcome back! Here, you can find tickets to the best events and gatherings in your city. Join our community to access exciting events and unforgettable experiences. Choose your favorite event today and get ready for a great time with us!
+                Here, you can find tickets to the best events and gatherings in your city. Join our community to access exciting events and unforgettable experiences. Choose your favorite event today and get ready for a great time with us!
             </Text>
             </Box>
             <Box w='25%' h='550px' borderRadius='0 1rem 1rem 0' p={10} backgroundColor='#E2E8F0' textAlign="center">

@@ -9,7 +9,7 @@ import Image from '../../assets/background.jpg';
 
 function Registration() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ login: '',  email: '', password: '', repeatPassword: '' });
+  const [formData, setFormData] = useState({ firstName: '', surname: '',  email: '', password: '', repeatPassword: '' });
   const { registerUser, error, isAuthenticated } = useAuthStore();
   const [errors, setErrors] = useState({});
 
@@ -66,12 +66,20 @@ function Registration() {
           <Heading textAlign='center' fontSize={30} mb={4}>Sign Up</Heading>
           <form onSubmit={handleSubmit}>
 
-            <FormControl id="login" mb={4} borderColor='black'>
+            <FormControl id="firstName" mb={4} borderColor='black'>
               <Input type="text" 
-                    name="login" 
-                    value={formData.login} 
+                    name="firstName" 
+                    value={formData.firstName} 
                     onChange={handleChange} 
-                    placeholder="Login"/>
+                    placeholder="First name"/>
+            </FormControl>
+
+            <FormControl id="surname" mb={4} borderColor='black'>
+              <Input type="text" 
+                    name="surname" 
+                    value={formData.surname} 
+                    onChange={handleChange} 
+                    placeholder="Second name"/>
             </FormControl>
 
             <FormControl id="email" mb={4} borderColor='black'>

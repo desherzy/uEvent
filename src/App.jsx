@@ -12,6 +12,7 @@ import CompanyPage from "./components/company/CompanyPage.jsx";
 import EventsPage from "./components/event/EventsPage.jsx";
 import EventPage from "./components/event/EventPage.jsx";
 import { ChakraProvider } from '@chakra-ui/react';
+import Image from './assets/background.jpg';
 import TicketsPage from "./components/ticket/TicketsPage.jsx";
 
 function App() {
@@ -43,7 +44,18 @@ function App() {
 
     if (!emailConfirmed && isAuthenticated) {
         return (
-            <div> Please confirm email </div>
+            <div style={{
+                backgroundImage: `url(${Image})`,
+                backgroundSize: 'cover',
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '20px',
+                filter: 'blur(0px)',
+              }} display="flex">
+              Please confirm email
+            </div>
         );
     }
 
@@ -51,7 +63,7 @@ function App() {
     return (
         <ChakraProvider>
             <BrowserRouter>
-                {!['/login', '/registration'].includes(window.location.pathname) && <Header />}
+                 <Header />
                 <Routes>
                     <Route path='/registration' element={<Registration />} />
                     <Route path='/login' element={<Login />} />
