@@ -1,71 +1,185 @@
-import React, { useState } from 'react';
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    FormControl,
+    FormLabel,
+    Input,
+    Textarea,
+    Select,
+    Button,
+    Box,
+    useToast,
+} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
+import { useState } from "react";
 import useEventsStore from "../../store/events.js";
+import MapContainer from "../maps/MapContainer.jsx";
 
-const CreateEventModal = ({ isOpen, onClose, companyId }) => {
+const CreateEventModal = ({ companyId }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const { createEvent } = useEventsStore();
-    const [eventName, setEventName] = useState('');
-    const [description, setDescription] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const toast = useToast();
+    const [eventName, setEventName] = useState("");
+    const [description, setDescription] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
     const [ticketCount, setTicketCount] = useState(0);
     const [ticketPrice, setTicketPrice] = useState(0);
     const [bannerImage, setBannerImage] = useState(null);
     const [eventImage, setEventImage] = useState(null);
-    const category = "Sport"
+    const [category, setCategory] = useState("Sport");
+    const [markerPosition, setMarkerPosition] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            await createEvent({
+                companyId,
+                eventName,
+                description,
+                startTime,
+                endTime,
+                ticketCount,
+                ticketPrice,
+                category,
+                bannerImage,
+                eventImage,
+                markerPosition,
+            });
+            toast({
+                title: "Event created successfully.",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+            onClose();
+        } catch (error) {
+            toast({
+                title: "Error creating event.",
+                description: error.message,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    };
 
-        await createEvent( {companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, category, bannerImage, eventImage });
-
-        onClose();
+    const handleMarkerPositionChange = (newPosition) => {
+        setMarkerPosition(newPosition);
     };
 
     return (
         <>
-            {isOpen && (
-                <div className={`fixed top-0 left-0 z-50 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center ${isOpen ? 'block' : 'hidden'}`}>
-                    <div className="bg-white rounded-lg p-6 w-96">
-                        <h2 className="text-lg font-semibold mb-4">Create Event</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                                <label htmlFor="eventName" className="block text-sm font-medium text-gray-700">Event Name</label>
-                                <input type="text" id="eventName" name="eventName" value={eventName} onChange={e => setEventName(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+            <Button onClick={onOpen}>Create Event</Button>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Create Event</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <ModalBody style={{ position: 'relative', height: '400px', overflow: 'hidden' }}>
+                            <div style={{ paddingTop: '20px' }}>
+                                <MapContainer onMarkerPositionChange={handleMarkerPositionChange} />
                             </div>
-                            <div className="mb-4">
-                                <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-                                <textarea id="description" name="description" value={description} onChange={e => setDescription(e.target.value)} rows="4" className="mt-1 p-2 border border-gray-300 rounded-md w-full"></textarea>
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="startTime" className="block text-sm font-medium text-gray-700">Start Time</label>
-                                <input type="datetime-local" id="startTime" name="startTime" value={startTime} onChange={e => setStartTime(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="endTime" className="block text-sm font-medium text-gray-700">End Time</label>
-                                <input type="datetime-local" id="endTime" name="endTime" value={endTime} onChange={e => setEndTime(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="ticketCount" className="block text-sm font-medium text-gray-700">Ticket Count</label>
-                                <input type="number" id="ticketCount" name="ticketCount" value={ticketCount} onChange={e => setTicketCount(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="ticketPrice" className="block text-sm font-medium text-gray-700">Ticket Price</label>
-                                <input type="number" id="ticketPrice" name="ticketPrice" value={ticketPrice} onChange={e => setTicketPrice(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="bannerImage" className="block text-sm font-medium text-gray-700">Banner Image</label>
-                                <input type="file" id="bannerImage" name="bannerImage" onChange={e => setBannerImage(e.target.files[0])} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="eventImage" className="block text-sm font-medium text-gray-700">Event Image</label>
-                                <input type="file" id="eventImage" name="eventImage" onChange={e => setEventImage(e.target.files[0])} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                            </div>
-                            <button type="submit" className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">Create Event</button>
-                            <button type="button" onClick={onClose} className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md ml-2">Cancel</button>
-                        </form>
-                    </div>
-                </div>
-            )}
+                        </ModalBody>
+                        <FormControl mt={4}>
+                            <FormLabel>Event Name</FormLabel>
+                            <Input
+                                type="text"
+                                value={eventName}
+                                onChange={(e) => setEventName(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Description</FormLabel>
+                            <Textarea
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Category</FormLabel>
+                            <Select value={category} onChange={(e) => setCategory(e.target.value)}>
+                                <option value="Sport">Sport</option>
+                                <option value="Music">Music</option>
+                                <option value="Arts">Arts</option>
+                            </Select>
+                        </FormControl>
+                        <Box display="flex" justifyContent="space-between" mt={4}>
+                            <FormControl w="48%">
+                                <FormLabel>Start Time</FormLabel>
+                                <Input
+                                    type="datetime-local"
+                                    value={startTime}
+                                    onChange={(e) => setStartTime(e.target.value)}
+                                />
+                            </FormControl>
+                            <FormControl w="48%">
+                                <FormLabel>End Time</FormLabel>
+                                <Input
+                                    type="datetime-local"
+                                    value={endTime}
+                                    onChange={(e) => setEndTime(e.target.value)}
+                                />
+                            </FormControl>
+                        </Box>
+                        <Box display="flex" justifyContent="space-between" mt={4}>
+                            <FormControl w="48%">
+                                <FormLabel>Ticket Count</FormLabel>
+                                <Input
+                                    type="number"
+                                    value={ticketCount}
+                                    onChange={(e) => setTicketCount(e.target.value)}
+                                />
+                            </FormControl>
+                            <FormControl w="48%">
+                                <FormLabel>Ticket Price</FormLabel>
+                                <Input
+                                    type="number"
+                                    value={ticketPrice}
+                                    onChange={(e) => setTicketPrice(e.target.value)}
+                                />
+                            </FormControl>
+                        </Box>
+                        <FormControl mt={4}>
+                            <FormLabel>Banner Image</FormLabel>
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => setBannerImage(e.target.files[0])}
+                            />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Event Image</FormLabel>
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => setEventImage(e.target.files[0])}
+                            />
+                        </FormControl>
+                        <Button
+                            mt={4}
+                            colorScheme="green"
+                            type="submit"
+                            onClick={handleSubmit}
+                        >
+                            Create Event
+                        </Button>
+                        <Button
+                            mt={4}
+                            colorScheme="gray"
+                            onClick={onClose}
+                            ml={2}
+                        >
+                            Cancel
+                        </Button>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </>
     );
 };

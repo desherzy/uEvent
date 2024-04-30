@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
-import {useAuthStore} from "./store/index.js";
+import {useAuthStore, useCompaniesStore, useEventsStore} from "./store/index.js";
 import Registration from "./components/auth/Registration.jsx";
 import Login from "./components/auth/Login.jsx";
 import Main from "./components/Main.jsx";
@@ -17,6 +17,8 @@ import TicketsPage from "./components/ticket/TicketsPage.jsx";
 
 function App() {
     const { isAuthenticated, emailConfirmed, refreshUser } = useAuthStore();
+    const { fetchEvents } = useEventsStore();
+    const { fetchCompanies } = useCompaniesStore();
     const [isCheckingAuth, setCheckingAuth] = useState(true);
 
     useEffect(() => {
@@ -25,6 +27,8 @@ function App() {
                 if (localStorage.getItem('token')) {
                     await refreshUser();
                 }
+                await fetchCompanies();
+                await fetchEvents();
             } catch (error) {
                 console.error('Error checking authentication:', error);
             } finally {

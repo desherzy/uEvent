@@ -2,21 +2,17 @@ import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useCompaniesStore} from "../../store/index.js";
 import CreateEventModal from "../event/CreateEventModal.jsx";
+import useEventsStore from "../../store/events.js";
+import EventItem from "../event/EventItem.jsx";
 
 const CompanyPage = () => {
     const { companyId } = useParams();
     const { companies, userCompanies, uploadLogo } = useCompaniesStore();
+    const { getEventsByCompanyId } = useEventsStore();
+    const events = getEventsByCompanyId(companyId);
     const selectedCompany = companies.find(company => company.id === parseInt(companyId));
     const isOwner = userCompanies.some(company => company.id === parseInt(companyId));
-    const [isCreateEventModalOpen, setCreateEventModalOpen] = useState(false);
 
-    const handleCreateEventClick = () => {
-        setCreateEventModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setCreateEventModalOpen(false);
-    };
 
     if (!selectedCompany) {
         return <div className="text-center mt-8">Company not found</div>;
@@ -85,11 +81,20 @@ const CompanyPage = () => {
                         </button>
                     </form>
 
-                    <button className="text-xl font-semibold mt-8 mb-4" onClick={handleCreateEventClick}>Create Event</button>
-                    <CreateEventModal isOpen={isCreateEventModalOpen} onClose={handleCloseModal} companyId={companyId}/>
+                    <CreateEventModal companyId={companyId}/>
 
                 </div>
             )}
+            <div>
+                <h2 className="text-3xl font-bold mb-4">Company`s events</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-3">
+                    {events.map(event => (
+                        <div key={event.id} className="p-4">
+                            <EventItem key={event.id} event={event}/>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };

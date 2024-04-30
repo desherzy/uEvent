@@ -5,7 +5,7 @@ const useEventsStore = create((set) => ({
     events: [],
     tickets: [],
 
-    createEvent: async ({ companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, category, bannerImage, eventImage }) => {
+    createEvent: async ({ companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, category, bannerImage, eventImage, markerPosition }) => {
         try {
             const formData = new FormData();
             formData.append('companyId', companyId);
@@ -16,6 +16,9 @@ const useEventsStore = create((set) => ({
             formData.append('ticketCount', ticketCount);
             formData.append('ticketPrice', ticketPrice);
             formData.append('category', category);
+
+            formData.append('latitude', markerPosition.lat);
+            formData.append('longitude', markerPosition.lng);
 
             if (bannerImage) {
                 formData.append('bannerImage', bannerImage);
@@ -77,6 +80,11 @@ const useEventsStore = create((set) => ({
     getEventById: (id) => {
         const event = useEventsStore.getState().events.find((event) => event.id === id);
         return event;
+    },
+
+    getEventsByCompanyId: (companyId) => {
+        const events = useEventsStore.getState().events.filter((event) => event.company_id == companyId);
+        return events;
     },
 
 }));

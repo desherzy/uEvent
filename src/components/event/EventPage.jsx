@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
 import useEventsStore from "../../store/events.js";
+import EventMap from "../maps/EventMap.jsx";
+import {ModalBody} from "@chakra-ui/react";
 
 const EventPage = () => {
     const { eventId } = useParams();
     const { events, buyTicket } = useEventsStore();
     const event = events.find(ev => ev.id === parseInt(eventId));
     const [notification, setNotification] = useState(null);
+    const [eventLocation, setEventLocation] = useState({ lat: event.latitude, lng: event.longitude });
 
     const handleBuyTicket = async () => {
         try {
@@ -24,7 +27,8 @@ const EventPage = () => {
     return (
         <div className="container mx-auto px-4 py-16">
             {notification && (
-                <div className="fixed top-1 right-0 transform -translate-x-1/2 bg-blue-50 border border-blue-300 rounded p-2 z-10">
+                <div
+                    className="fixed top-1 right-0 transform -translate-x-1/2 bg-blue-50 border border-blue-300 rounded p-2 z-10">
                     <p className="text-gray-800">{notification}</p>
                 </div>
             )}
@@ -79,12 +83,19 @@ const EventPage = () => {
                     <p className="text-gray-600 mb-4">
                         Updated at: {new Date(event.updatedAt).toLocaleString()}
                     </p>
+                    <div className="mt-8">
+                        <button onClick={handleBuyTicket}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Buy Ticket
+                        </button>
+                    </div>
+
                 </div>
             </div>
-            <div className="mt-8">
-                <button onClick={handleBuyTicket} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Buy Ticket
-                </button>
+            <div className='mt-5'>
+                <div style={{ position: 'relative', margin: 'auto', height: '400px', width: '60%', overflow: 'hidden' }}>
+                    <EventMap event={event}/>
+                </div>
             </div>
         </div>
     );
