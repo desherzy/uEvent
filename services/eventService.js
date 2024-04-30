@@ -55,7 +55,7 @@ class EventService {
         return ticket;
     }
 
-    async createEvent(companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, bannerImageUrl, eventImageUrl, categoryName){
+    async createEvent(companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, bannerImageUrl, eventImageUrl, categoryName, latitude, longitude){
         const event = await Event.create({
             name: eventName,
             description: description,
@@ -65,6 +65,8 @@ class EventService {
             banner_image: bannerImageUrl,
             start_time: startTime,
             company_id: companyId,
+            latitude: latitude,
+            longitude: longitude,
             end_time: endTime
         });
 

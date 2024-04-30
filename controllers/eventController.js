@@ -48,7 +48,7 @@ class EventController {
 
     async  createEvent(req, res, next) {
         try {
-            const { companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, category } = req.body;
+            const { companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, category, latitude, longitude } = req.body;
             const bannerImage = req.files && req.files.bannerImage ? req.files.bannerImage : null;
             const eventImage = req.files && req.files.eventImage ? req.files.eventImage : null;
 
@@ -73,7 +73,7 @@ class EventController {
             const bannerImageUrl = `${process.env.API_URL}/public/eventsImages/${bannerFileName}`;
             const eventImageUrl = `${process.env.API_URL}/public/eventsImages/${eventFileName}`;
 
-            const event = await eventService.createEvent(companyId , eventName, description, startTime, endTime, ticketCount, ticketPrice, bannerImageUrl, eventImageUrl, category);
+            const event = await eventService.createEvent(companyId , eventName, description, startTime, endTime, ticketCount, ticketPrice, bannerImageUrl, eventImageUrl, category, latitude, longitude);
 
             res.json(event);
         } catch (e) {

@@ -38,6 +38,14 @@ const Event = sequelize.define('Event', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    longitude: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    latitude: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     company_id: {
         type: DataTypes.INTEGER,
         references: {
