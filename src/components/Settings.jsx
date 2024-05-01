@@ -8,6 +8,8 @@ import { Center,
     Button, 
     Heading, 
     Text, 
+    Checkbox, 
+    HStack,
     AlertDialog,
     AlertDialogOverlay, 
     AlertDialogContent, 
@@ -118,9 +120,11 @@ function Settings() {
                                 <Input placeholder='Surname' type='text' borderColor='black' mb={4} value={surname} onChange={(e) => setSurname(e.target.value)}/>
                                 <Input placeholder='Email' type='text' borderColor='black' mb={4} value={email} onChange={(e) => setEmail(e.target.value)}/>
                                 <Input placeholder='Password' type='password' borderColor='black' mb={4}/>
+
                                 <Button type='button' color='#49AA87' onClick={handleUpdateUser} margin={4}>Save changes</Button>
                                 <Button type='button' color='red' onClick={handleLogout} margin={4}>Logout</Button>
                                 <Button type='button' color='red' onClick={handleDeleteAccount} margin={4}>Delete account</Button>
+                                <Checkbox borderColor="black">Notifications</Checkbox>
 
                                 <AlertDialog
                                     isOpen={isDeleteAlertOpen}
