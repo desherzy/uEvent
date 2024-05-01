@@ -183,7 +183,7 @@ function Settings() {
                                 <AlertDialogFooter>
                                     <Button onClick={handleCloseDeleteAlert}>
                                         Cancel
-                                    </Button>
+                                     </Button>
                                     <Button colorScheme="red" onClick={confirmDeleteAccount} ml={3}>
                                         Delete
                                     </Button>

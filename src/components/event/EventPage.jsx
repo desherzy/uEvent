@@ -1,15 +1,28 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import useEventsStore from "../../store/events.js";
 import EventMap from "../maps/EventMap.jsx";
 import {ModalBody} from "@chakra-ui/react";
+import UserList from "../users/UserList.jsx";
 
 const EventPage = () => {
     const { eventId } = useParams();
-    const { events, buyTicket } = useEventsStore();
+    const { events, buyTicket, fetchEventUsers, eventUsers } = useEventsStore();
     const event = events.find(ev => ev.id === parseInt(eventId));
     const [notification, setNotification] = useState(null);
     const [eventLocation, setEventLocation] = useState({ lat: event.latitude, lng: event.longitude });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await fetchEventUsers(eventId);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
+
+        fetchData();
+    }, [fetchEventUsers]);
 
     const handleBuyTicket = async () => {
         try {
@@ -100,6 +113,7 @@ const EventPage = () => {
                     <EventMap event={event}/>
                 </div>
             </div>
+            <UserList eventUsers={eventUsers} />
         </div>
     );
 };
