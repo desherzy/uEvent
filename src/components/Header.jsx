@@ -1,43 +1,56 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import {useAuthStore} from "../store/index.js";
-
+import { useAuthStore } from "../store/index.js";
+import { Box, Flex, Input, Link as ChakraLink, Button, Image } from '@chakra-ui/react';
 
 const Header = () => {
     const { isAuthenticated, user } = useAuthStore();
 
-
     return (
-        <header className="bg-gray-800 text-white py-4">
-            <div className="container mx-auto flex justify-between items-center">
-                <div className="flex items-center">
-                    <img className="h-8 w-auto mr-4" src="https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/external-ticket-magic-and-fairy-tale-icongeek26-linear-colour-icongeek26.png" alt="Logo" />
-                    <input
+        <Box bg="gray.800" color="white" py={4}>
+            <Flex alignItems="center" justifyContent="space-between" mx="auto" px={4} maxW="xl">
+                <Flex alignItems="center">
+                    <Image src="https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/external-ticket-magic-and-fairy-tale-icongeek26-linear-colour-icongeek26.png" alt="Logo" h={8} mr={4} />
+                    <Input
                         type="text"
                         placeholder="Search"
-                        className="bg-gray-700 text-white px-4 py-2 rounded-md focus:outline-none focus:bg-gray-600"
+                        bg="gray.700"
+                        color="white"
+                        px={4}
+                        py={2}
+                        rounded="md"
+                        _focus={{ bg: 'gray.600' }}
+                        _placeholder={{ color: 'gray.300' }}
+                        focusBorderColor="transparent"
+                        outline="none"
                     />
-                </div>
-                <nav className="space-x-4">
-                    <Link to="/events" className="hover:text-gray-300">Events</Link>
-                    <Link to="/companies" className="hover:text-gray-300">Companies</Link>
-                    {isAuthenticated ? (
-                        <Link to="/tickets" className="hover:text-gray-300">Tickets</Link>
-                    ) : null}
-                </nav>
-                <div className="flex items-center">
-                    {isAuthenticated ? (
-                        <>
-                            <Link to="/settings">
-                                <img className="h-8 w-auto mr-4" src={user.profileImage} alt="user" />
-                            </Link>
-                        </>
-                    ) : (
-                        <a href="http://localhost:5173/login" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Login</a>
+                </Flex>
+                <Flex alignItems="center" ml={4}>
+                    <ChakraLink as={Link} to="/events" color="white" _hover={{ color: 'gray.300' }} mr={4}>
+                        Events
+                    </ChakraLink>
+                    <ChakraLink as={Link} to="/companies" color="white" _hover={{ color: 'gray.300' }} mr={4}>
+                        Companies
+                    </ChakraLink>
+                    {isAuthenticated && (
+                        <ChakraLink as={Link} to="/tickets" color="white" _hover={{ color: 'gray.300' }} mr={4}>
+                            Tickets
+                        </ChakraLink>
                     )}
-                </div>
-            </div>
-        </header>
+                    {isAuthenticated ? (
+                        <Link to="/settings">
+                            <Image src={user.profileImage} alt="user" h={8} mr={4} />
+                        </Link>
+                    ) : (
+                        <a href="http://localhost:5173/login">
+                            <Button bg="blue.500" _hover={{ bg: 'blue.600' }} color="white" fontWeight="bold" py={2} px={4} rounded="md">
+                                Login
+                            </Button>
+                        </a>
+                    )}
+                </Flex>
+            </Flex>
+        </Box>
     );
 };
 
