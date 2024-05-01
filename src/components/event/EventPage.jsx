@@ -68,6 +68,9 @@ const EventPage = () => {
                         Ticket price: {event.ticket_price}
                     </p>
                     <p className="text-gray-600 mb-4">
+                        Category: {event.categoryName}
+                    </p>
+                    <p className="text-gray-600 mb-4">
                         Start time: {new Date(event.start_time).toLocaleString()}
                     </p>
                     <p className="text-gray-600 mb-4">
@@ -93,7 +96,7 @@ const EventPage = () => {
                 </div>
             </div>
             <div className='mt-5'>
-                <div style={{ position: 'relative', margin: 'auto', height: '400px', width: '60%', overflow: 'hidden' }}>
+                <div style={{position: 'relative', margin: 'auto', height: '400px', width: '60%', overflow: 'hidden' }}>
                     <EventMap event={event}/>
                 </div>
             </div>

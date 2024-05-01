@@ -15,13 +15,14 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import useEventsStore from "../../store/events.js";
 import MapContainer from "../maps/MapContainer.jsx";
+import CompanyItem from "../company/CompanyItem.jsx";
 
 const CreateEventModal = ({ companyId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { createEvent } = useEventsStore();
+    const { createEvent, categories } = useEventsStore();
     const toast = useToast();
     const [eventName, setEventName] = useState("");
     const [description, setDescription] = useState("");
@@ -31,7 +32,7 @@ const CreateEventModal = ({ companyId }) => {
     const [ticketPrice, setTicketPrice] = useState(0);
     const [bannerImage, setBannerImage] = useState(null);
     const [eventImage, setEventImage] = useState(null);
-    const [category, setCategory] = useState("Sport");
+    const [category, setCategory] = useState("");
     const [markerPosition, setMarkerPosition] = useState('');
 
     const handleSubmit = async (e) => {
@@ -104,9 +105,9 @@ const CreateEventModal = ({ companyId }) => {
                         <FormControl mt={4}>
                             <FormLabel>Category</FormLabel>
                             <Select value={category} onChange={(e) => setCategory(e.target.value)}>
-                                <option value="Sport">Sport</option>
-                                <option value="Music">Music</option>
-                                <option value="Arts">Arts</option>
+                                {categories.map(category => (
+                                    <option value={category.name}>{category.name}</option>
+                                ))}
                             </Select>
                         </FormControl>
                         <Box display="flex" justifyContent="space-between" mt={4}>

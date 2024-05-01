@@ -17,7 +17,7 @@ import TicketsPage from "./components/ticket/TicketsPage.jsx";
 
 function App() {
     const { isAuthenticated, emailConfirmed, refreshUser } = useAuthStore();
-    const { fetchEvents } = useEventsStore();
+    const { fetchEvents, fetchCategories } = useEventsStore();
     const { fetchCompanies } = useCompaniesStore();
     const [isCheckingAuth, setCheckingAuth] = useState(true);
 
@@ -28,6 +28,7 @@ function App() {
                     await refreshUser();
                 }
                 await fetchCompanies();
+                await fetchCategories();
                 await fetchEvents();
             } catch (error) {
                 console.error('Error checking authentication:', error);
