@@ -11,7 +11,7 @@ import CompaniesList from "./components/company/CompaniesList.jsx";
 import CompanyPage from "./components/company/CompanyPage.jsx";
 import EventsPage from "./components/event/EventsPage.jsx";
 import EventPage from "./components/event/EventPage.jsx";
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Box, Spinner, Center } from '@chakra-ui/react';
 import Image from './assets/background.jpg';
 import TicketsPage from "./components/ticket/TicketsPage.jsx";
 
@@ -43,7 +43,15 @@ function App() {
 
     if (isCheckingAuth) {
         return (
-            <div> spinner </div>
+            <Center height="100vh">
+                <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                />
+            </Center>
         );
     }
 
@@ -59,7 +67,15 @@ function App() {
                 padding: '20px',
                 filter: 'blur(0px)',
               }} display="flex">
-              Please confirm email
+                <Box
+                    bg="#E2E8F0"
+                    p={4}
+                    color="black"
+                    textAlign="center"
+                    borderRadius="md"
+                    >
+                    We send you a message on your email address. Please confirm your email address to finish registration!
+                </Box>
             </div>
         );
     }
