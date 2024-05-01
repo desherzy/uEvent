@@ -5,6 +5,7 @@ const useEventsStore = create((set) => ({
     events: [],
     tickets: [],
     categories: [],
+    eventUsers: [],
 
     createEvent: async ({ companyId, eventName, description, startTime, endTime, ticketCount, ticketPrice, category, bannerImage, eventImage, markerPosition }) => {
         try {
@@ -49,7 +50,17 @@ const useEventsStore = create((set) => ({
 
             set({ events: response.data });
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error('Error fetching events:', error);
+        }
+    },
+
+    fetchEventUsers: async (eventId) => {
+        try {
+            const response = await $api.get(`/users/events/${eventId}`);
+
+            set({ eventUsers: response.data });
+        } catch (error) {
+            console.error('Error fetching users:', error);
         }
     },
 
@@ -59,7 +70,7 @@ const useEventsStore = create((set) => ({
 
             set({ tickets: response.data });
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error('Error fetching tickets:', error);
         }
     },
 
@@ -69,7 +80,7 @@ const useEventsStore = create((set) => ({
 
             set({ categories: response.data });
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error('Error fetching categories:', error);
         }
     },
 
@@ -84,7 +95,7 @@ const useEventsStore = create((set) => ({
 
 
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error('Error buying ticket:', error);
         }
     },
 

@@ -4,7 +4,6 @@
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -12,6 +11,7 @@
 }
 
 body {
+  background-color: #f4fdeb;
   margin: 0;
   padding: 0;
 }

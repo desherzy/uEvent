@@ -1,16 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {useCompaniesStore} from "../../store/index.js";
+import {useAuthStore, useCompaniesStore} from "../../store/index.js";
 import CompanyItem from "./CompanyItem.jsx";
 
 
 const CompaniesList = () => {
-    const { companies, fetchCompanies } = useCompaniesStore();
+    const { companies, fetchCompanies, fetchUserCompanies } = useCompaniesStore();
+    const { user } = useAuthStore();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 await fetchCompanies();
+                await  fetchUserCompanies(user.id);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching companies:', error);
