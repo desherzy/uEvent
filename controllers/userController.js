@@ -24,6 +24,15 @@ class UserController {
         }
     }
 
+    async getEventUsers(req, res, next) {
+        try {
+            const id = req.params.id;
+            const users = await userService.getEventUsers(id);
+            res.json(users);
+        } catch (e) {
+            next(e);
+        }
+    }
 
     async updateUser(req, res, next) {
         try {

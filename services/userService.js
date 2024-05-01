@@ -4,7 +4,7 @@ const ApiError = require('../exceptions/apiError');
 const bcrypt = require('bcrypt');
 const Links = require('../models/Links');
 const Tokens = require('../models/Tokens');
-
+const Ticket = require('../models/Ticket');
 
 class UserService {
 
@@ -33,6 +33,17 @@ class UserService {
         } catch (error) {
             throw error;
         }
+    }
+
+    async  getEventUsers(eventId) {
+        const tickets = await Ticket.findAll({ where: { event_id: eventId } });
+
+        const users = await Promise.all(tickets.map(async ticket => {
+            const user = await User.findByPk(ticket.user_id);
+            return new UserDto(user);
+        }));
+
+        return users;
     }
 
 

@@ -6,6 +6,7 @@ const router = new Router();
 
 router.get('/', userController.getUsers);
 router.get('/:id', userController.getUser);
+router.get('/events/:id', userController.getEventUsers);
 router.patch('/update', authMiddleware, userController.updateUser);
 router.patch('/avatar', authMiddleware, userController.uploadUsersAvatar);
 router.delete('/avatar', authMiddleware, userController.deleteUsersAvatar);
