@@ -33,7 +33,7 @@ const CreateCompanyModal = ({ isOpen, onClose }) => {
         e.preventDefault();
 
         if (!companyInfo.name || !companyInfo.description || !companyInfo.location) {
-            setError('Name, description, and location fields can\'t be empty!');
+            setError('Name, description and location fields can\'t be empty!');
             return;
         }
 

@@ -113,7 +113,7 @@ function Settings() {
                                 p={10}
                                 backgroundColor='#E2E8F0'
                                 textAlign="center"
-                                
+                                overflowY="auto"
                             >
                                 <Text fontSize={24} mb={4}>What do you want to change?</Text>
                                 <Input placeholder='Name' type='text' borderColor='black' mb={4} value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
@@ -158,7 +158,7 @@ function Settings() {
                                 p={10}
                                 backgroundColor='#E2E8F0'
                                 textAlign="center"
-                                
+                                overflowY="auto"
                                 display="flex"
                                 flexDirection="column"
                                 alignItems="center"
@@ -212,7 +212,7 @@ function Settings() {
                                 p={10}
                                 backgroundColor='#E2E8F0'
                                 textAlign="center"
-                                
+                                overflowY="auto"
                                 display="flex"
                                 flexDirection="column"
                                 alignItems="center"
