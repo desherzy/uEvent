@@ -81,6 +81,15 @@ class EventController {
         }
     }
 
+    async getCategories(req, res, next) {
+        try {
+            const categories = await eventService.getCategories();
+            res.json(categories);
+        } catch (e) {
+
+        }
+    }
+
     async updateEvent(req, res, next) {
         try {
 

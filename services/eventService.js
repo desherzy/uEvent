@@ -21,12 +21,17 @@ class EventService {
             if (eventCategory) {
                 const category = await Category.findByPk(eventCategory.category_id);
                 if (category) {
-                    event.categoryName = category.name;
+                    event.dataValues.categoryName = category.name;
                 }
             }
         }
 
         return events;
+    }
+
+    async getCategories() {
+        const categories = await Category.findAll();
+        return categories;
     }
 
     async getTickets(userId){
