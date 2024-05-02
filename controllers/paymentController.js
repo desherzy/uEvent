@@ -19,14 +19,28 @@ class PaymentController {
                 createdTickets: createdTickets
             });
         }
-        catch (e) {
+        catch(e) {
             next(e);
         }
     }
 
     async webhookHandler(req, res, next) {
         try {
-            //todo
+            const sig = req.headers['stripe-signature'];
+            const eventType = req.body.type;
+            const ticketsIds = req.body.metadata.ticketsIds;
+            switch (eventType) {
+                case "checkout.session.completed":
+                    await paymentService.completedBuyingTickets(ticketsIds);
+                    //todo add mailer
+                    break;
+                case "checkout.session.expired":
+                    await paymentService.expiredBuyingTickets(ticketsIds);
+                    break;
+                default:
+                    throw new Error("Unhandled event type: " + eventType);
+            }
+            res.send();
         }
         catch (e) {
             next(e);

@@ -16,7 +16,15 @@ class PaymentService {
             throw new Error("Can not buy so many tickets for event, event id: " + eventId);
         }
 
+        let createdTickets = new Array();
+        for(let index = 0; index < ticketsQuantity; index++) {
+            createdTickets.push(await Ticket.create(userId, eventId));
+        }
+
         const stripeSession = await stripe.checkout.sessions.create({
+            metadata: {
+                ticketsIds: createdTickets.map(function(ticket) {ticket.id})
+            },
             customer_email: user.email,
             mode: "payment",
             payment_method_types: ["card"],
@@ -37,15 +45,6 @@ class PaymentService {
             success_url: process.env.CLIENT_URL + process.env.STRIPE_SUCCESS_URL,
             cancel_url: process.env.CLIENT_URL + process.env.STRIPE_CANCEL_URL,
         });
-        /*const webhookEndpoint = await stripe.webhookEndpoints.create({
-            enabled_events: ['charge.succeeded', 'charge.expired'],
-            url: process.env.API_URL + process.env.STRIPE_WEBHOOK_URL
-        });*/
-
-        let createdTickets = new Array();
-        for(let index = 0; index < ticketsQuantity; index++) {
-            createdTickets.push(await Ticket.create(userId, eventId));
-        }
 
         return {
             stripeSession: stripeSession,
@@ -53,12 +52,24 @@ class PaymentService {
         }
     }
 
-    async succeededBuyingTickets() {
-        //todo
+    async completedBuyingTickets(ticketsIds) {
+        for (const ticketId of ticketsIds) {
+            let ticket = await Ticket.findByPk(ticketId);
+            if (!ticket) {
+                throw new Error("Ticket with this id does not exist, inputted id: " + ticketId);
+            }
+            await ticket.update({status: "confirmed"});
+        }
     }
 
-    async expiredBuyingTickets() {
-        //todo
+    async expiredBuyingTickets(ticketsIds) {
+        for (const ticketId of ticketsIds) {
+            let ticket = await Ticket.findByPk(ticketId);
+            if (!ticket) {
+                throw new Error("Ticket with this id does not exist, inputted id: " + ticketId);
+            }
+            await ticket.destroy();
+        }
     }
 }
 
