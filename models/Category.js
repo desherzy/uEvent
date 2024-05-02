@@ -18,5 +18,7 @@ const Category = sequelize.define('Category', {
     timestamps: false
 });
 
+Category.hasMany(EventCategory, { foreignKey: 'category_id' });
+
 
 module.exports = Category;

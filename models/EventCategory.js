@@ -15,10 +15,10 @@ const EventCategory = sequelize.define('EventCategory', {
     category_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        references: {
-            model: Category,
-            key: 'id'
-        }
+        // references: {
+        //     model: Category,
+        //     key: 'id'
+        // }
     }
 }, {
     tableName: 'event_categories',

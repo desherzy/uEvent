@@ -17,15 +17,15 @@ async function initializeDatabase() {
 
 
         await User.sync({ alter: true });
-        await Event.sync({ alter: true });
-        await Ticket.sync({ alter: true });
-        await Category.sync({ alter: true });
-        await EventCategory.sync({ alter: true });
         await Company.sync({ alter: true });
         await CompanyRoles.sync({ alter: true });
-        await UserCompany.sync({ alter: true });
+        await Category.sync({ alter: true });
+        await Event.sync({ alter: true });
         await Tokens.sync({ alter: true });
         await Links.sync({ alter: true });
+        await Ticket.sync({ alter: true });
+        await UserCompany.sync({ alter: true });
+        await EventCategory.sync({ alter: true });
 
         console.log('\nAll models synchronized successfully.');
     } catch (error) {

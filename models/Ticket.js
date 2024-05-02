@@ -14,7 +14,7 @@ const Ticket = sequelize.define('Ticket', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'User',
+            model: User,
             key: 'id'
         }
     },
@@ -22,7 +22,7 @@ const Ticket = sequelize.define('Ticket', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Event',
+            model: Event,
             key: 'id'
         }
     }
