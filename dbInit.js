@@ -9,6 +9,7 @@ const Company = require('./models/Company');
 const CompanyRoles = require('./models/CompanyRoles');
 const UserCompany = require('./models/UserCompany');
 const Ticket = require('./models/Ticket');
+const Comment = require('./models/Сomment');
 
 async function initializeDatabase() {
     try {
@@ -21,6 +22,7 @@ async function initializeDatabase() {
         await CompanyRoles.sync({ alter: true });
         await Category.sync({ alter: true });
         await Event.sync({ alter: true });
+        await Comment.sync({ alter: true });
         await Tokens.sync({ alter: true });
         await Links.sync({ alter: true });
         await Ticket.sync({ alter: true });

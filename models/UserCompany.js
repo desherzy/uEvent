@@ -7,7 +7,7 @@ const CompanyRoles = require('./CompanyRoles');
 const UserCompany = sequelize.define('UserCompany', {
     user_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        primaryKey: true,
         references: {
             model: User,
             key: 'id'
@@ -15,11 +15,11 @@ const UserCompany = sequelize.define('UserCompany', {
     },
     company_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        // references: {
-        //     model: Company,
-        //     key: 'id'
-        // }
+        primaryKey: true,
+        references: {
+            model: Company,
+            key: 'id'
+        }
     },
     role_id: {
         type: DataTypes.INTEGER,

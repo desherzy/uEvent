@@ -38,7 +38,6 @@ class CompanyService {
         }
 
         const company = await Company.create({name: name, description: description, location: location});
-        console.log('\nID + ' + company.id + '\n');
         await UserCompany.create({user_id: creatorId, company_id: company.id, role_id: 1});
         return company;
     }
