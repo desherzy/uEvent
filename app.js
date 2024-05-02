@@ -11,6 +11,7 @@ const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
 const companyRouter = require('./routes/companyRoutes');
 const eventRouter = require('./routes/eventRoutes');
+const paymentRouter = require('./routes/paymentRoutes');
 
 initializeDatabase();
 
@@ -35,6 +36,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/company', companyRouter);
 app.use('/api/event', eventRouter);
+app.use('/api/payment', paymentRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}/`);
