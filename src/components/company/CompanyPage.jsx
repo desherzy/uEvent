@@ -1,22 +1,38 @@
-import React, {useState} from 'react';
-import {useParams} from "react-router-dom";
-import {useCompaniesStore} from "../../store/index.js";
-import CreateEventModal from "../event/CreateEventModal.jsx";
-import useEventsStore from "../../store/events.js";
-import EventItem from "../event/EventItem.jsx";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useCompaniesStore } from '../../store/index.js';
+import CreateEventModal from '../event/CreateEventModal.jsx';
+import EventItem from '../event/EventItem.jsx';
+import useEventsStore from '../../store/events.js';
+import { Box, 
+    Center, 
+    Text, 
+    Button, 
+    Input, 
+    Textarea, 
+    Image } from '@chakra-ui/react';
 
 const CompanyPage = () => {
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [location, setLocation] = useState('');
     const { companyId } = useParams();
-    const { companies, userCompanies, uploadLogo } = useCompaniesStore();
+
+    const { companies, userCompanies, uploadLogo, updateCompany } = useCompaniesStore();
     const { getEventsByCompanyId } = useEventsStore();
     const events = getEventsByCompanyId(companyId);
-    const selectedCompany = companies.find(company => company.id === parseInt(companyId));
-    const isOwner = userCompanies.some(company => company.id === parseInt(companyId));
 
+    const selectedCompany = companies.find((company) => company.id === parseInt(companyId));
+    const isOwner = userCompanies.some((company) => company.id === parseInt(companyId));
 
-    if (!selectedCompany) {
-        return <div className="text-center mt-8">Company not found</div>;
-    }
+    useEffect(() => {
+        // Populate form fields with selected company data
+        if (selectedCompany) {
+            setName(selectedCompany.name);
+            setDescription(selectedCompany.description);
+            setLocation(selectedCompany.location);
+        }
+    }, [selectedCompany]);
 
     const handleLogoClick = async () => {
         const input = document.createElement('input');
@@ -31,71 +47,142 @@ const CompanyPage = () => {
         input.click();
     };
 
+    const handleDeleteCompany = () => {
+        // TODO: Implement delete company functionality
+    };
+
+    const handleSubmitChanges = async (e) => {
+        e.preventDefault();
+        const updatedCompany = {
+            name: name,
+            description: description,
+            location: location
+        };
+    
+        try {
+            await updateCompany(updatedCompany, companyId); // Call updateCompany from Zustand store
+            // Optionally, you could handle success or navigate after update
+            window.location.reload();
+        } catch (error) {
+            console.error('Error updating company:', error);
+        }
+    };
+
+    const getUserAvatar = () => {
+        return selectedCompany?.logo || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+    };
+
     return (
-        <div className=" container max-w-3xl mx-auto px-4 py-8 ">
-            <div className="flex items-center justify-center">
+        <Center>
+            <Box
+                w="40%"
+                h="100vh"
+                backgroundColor="#E2E8F0"
+                textAlign="center"
+                overflowY="auto"
+                p={6}
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                
+            >
                 {isOwner ? (
-                    <img
-                        src={selectedCompany.logo}
+                    <Image
+                        src={getUserAvatar()}
                         alt="Company Logo"
-                        className="w-24 h-24 rounded-full cursor-pointer"
+                        boxSize='40%'
+                        objectFit="cover"
                         onClick={handleLogoClick}
+                        border="3px solid white"
+                        borderRadius="full"
+                        style={{ margin: "auto" }}
                     />
                 ) : (
-                    <img
-                        src={selectedCompany.logo}
+                    <Image
+                        src={getUserAvatar()}
                         alt="Company Logo"
-                        className="w-24 h-24 rounded-full"
+                        boxSize='40%'
+                        objectFit="cover"
+                        border="3px solid white"
+                        borderRadius="full"
+                        style={{ margin: "auto" }}
                     />
                 )}
-            </div>
-            <h1 className="text-3xl font-semibold mt-4">{selectedCompany.name}</h1>
-            <p className="text-lg text-gray-600 mt-2">Location: {selectedCompany.location}</p>
-            <p className="text-lg text-gray-600 mt-2">Description: {selectedCompany.description}</p>
 
-            {isOwner && (
-                <div className="mt-8">
-                    <h2 className="text-xl font-semibold mb-4">Manage Company</h2>
-                    <form>
-                        <div className="mb-4">
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Company
-                                Name</label>
-                            <input type="text" id="name" name="name"
-                                   className="mt-1 p-2 border border-gray-300 rounded-md w-full"/>
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="location"
-                                   className="block text-sm font-medium text-gray-700">Location</label>
-                            <input type="text" id="location" name="location"
-                                   className="mt-1 p-2 border border-gray-300 rounded-md w-full"/>
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="description"
-                                   className="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea id="description" name="description" rows="4"
-                                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"></textarea>
-                        </div>
-                        <button type="submit"
-                                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mr-4">Update
-                            Company
-                        </button>
-                    </form>
-
-                    <CreateEventModal companyId={companyId}/>
-
+                <div style={{ marginTop: '20px' }}>
+                    <Text fontSize="30px" fontWeight="bold" mb={2}>
+                        {selectedCompany.name}
+                    </Text>
+                    <Text as="i" fontSize="20px" color="gray.600" mb={2}>
+                        Location: {selectedCompany.location}
+                    </Text>
+                    <Text fontSize="18px" color="gray.600" mt={2} mb={4}>
+                        {selectedCompany.description}
+                    </Text>
                 </div>
-            )}
-            <div>
-                <h2 className="text-3xl font-bold mb-4">Company`s events</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-3">
+
+                {isOwner && (
+                    <Box border="1px" borderRadius="1rem">
+                        <Text fontWeight='bold' fontSize='25px' mb={4}>Change information</Text>
+                        <form onSubmit={handleSubmitChanges} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Input
+                                mb={4}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                variant="flushed"
+                                placeholder="Company name"
+                                w='60%'
+                                borderRadius='1px'
+                                borderColor='black'
+                            />
+                            <Input
+                                mb={4}
+                                value={location}
+                                onChange={(e) => setLocation(e.target.value)}
+                                variant="flushed"
+                                placeholder="Location"
+                                w='60%'
+                                borderRadius='1px'
+                                borderColor='black'
+                            />
+                            <Textarea
+                                mb={4}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                variant="flushed"
+                                placeholder="Description"
+                                rows={4}
+                                w='60%'
+                                borderRadius='1px'
+                                borderColor='black'
+                            />
+                            <Box mt={4} mb={4} width="60%" display="flex" justifyContent="space-between">
+                                <Button type='submit' color='#49AA87'>
+                                    Save changes
+                                </Button>
+                                <CreateEventModal companyId={companyId} />
+                                <Button type='button' color='red' onClick={handleDeleteCompany}>
+                                    Delete company
+                                </Button>
+                            </Box>
+                        </form>
+                    </Box>
+                )}
+            </Box>
+
+            <Box w="30%" h="100vh" backgroundColor="#49AA87" textAlign="center" overflowY="auto">
+                <Text fontSize="30px" fontWeight="bold" mb={4}>
+                    Company events
+                </Text>
+                <div>
                     {events.map(event => (
                         <div key={event.id} className="p-4">
                             <EventItem key={event.id} event={event}/>
                         </div>
                     ))}
                 </div>
-            </div>
-        </div>
+            </Box>
+        </Center>
     );
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { Box, Heading, Text, Button } from '@chakra-ui/react';
 
 const CompanyItem = ({ company }) => {
     const navigate = useNavigate();
@@ -8,16 +9,40 @@ const CompanyItem = ({ company }) => {
         navigate(`/company/${company.id}`);
     };
 
+    const truncateDescription = (description, maxLength) => {
+        if (description.length > maxLength) {
+            return description.substring(0, maxLength) + '...';
+        }
+        return description;
+    };
+
     return (
-        <li className="border border-gray-300 rounded-md p-2 mb-2">
-            <h3 className="font-semibold">{company.name}</h3>
-            <p className="text-gray-600">{company.description}</p>
-            <p className="text-sm text-gray-500">{company.location}</p>
-            <button onClick={handleVisitClick}
-                    className="mt-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+        <Box borderWidth="1px" borderRadius="md" borderColor="black" p="2" mb="2" backgroundColor="#E2E8F0">
+            <Heading as="h3" size="md" fontWeight="semibold" mb="2" margin="a">
+                {company.name}
+            </Heading>
+            <Text color="gray.600" mb="2">
+                {truncateDescription(company.description, 100)}
+            </Text>
+            <Text fontSize="sm" color="gray.500" mb="2">
+                {company.location}
+            </Text>
+            <Button
+                onClick={handleVisitClick}
+                mt="2"
+                px="4"
+                py="2"
+                bg="blue.500"
+                color="white"
+                fontWeight="semibold"
+                rounded="lg"
+                shadow="md"
+                _hover={{ bg: 'blue.600' }}
+                _focus={{ outline: 'none', bg: 'blue.600' }}
+            >
                 Go
-            </button>
-        </li>
+            </Button>
+        </Box>
     );
 };
 

@@ -75,7 +75,7 @@ const CreateEventModal = ({ companyId }) => {
 
     return (
         <>
-            <Button onClick={onOpen}>Create Event</Button>
+            <Button onClick={onOpen} color='blue'>Create Event</Button>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>

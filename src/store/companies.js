@@ -2,8 +2,10 @@ import { create } from 'zustand';
 import $api from '../axios';
 
 const useCompaniesStore = create((set) => ({
+    company: null,
     companies: [],
     userCompanies: [],
+    error: null,
 
     createCompany: async (companyData) => {
         console.log(companyData);
@@ -21,7 +23,6 @@ const useCompaniesStore = create((set) => ({
     fetchCompanies: async () => {
         try {
             const response = await $api.get('/company/');
-
             set({ companies: response.data });
         } catch (error) {
             console.error('Error registering user:', error);
@@ -31,11 +32,29 @@ const useCompaniesStore = create((set) => ({
     fetchUserCompanies: async (userid) => {
         try {
             const response = await $api.get(`/company/user/${userid}`);
-
             set({ userCompanies: response.data });
         } catch (error) {
             console.error('Error registering user:', error);
         }
+    },
+
+    updateCompany: async (updatedFields, companyId) => {
+        try {
+            const response = await $api.patch(`/company/update/${companyId}`,  updatedFields);
+            const { name, description, location } = response.data;
+            set((state) => ({
+              ...state,
+              company: {
+                ...state.company,
+                name: name,
+                description: description,
+                location: location
+              },
+            }));
+    
+          } catch (error) {
+            console.error('Error uploading company:', error);
+          }
     },
 
     uploadLogo: async (file, companyId) => {

@@ -201,7 +201,7 @@ function Settings() {
                             >
                                 <Button type='button' color='blue' margin={4} onClick={handleCreateCompany}>Create Company</Button>
                                 <CreateCompanyModal isOpen={isModalOpen} onClose={handleCloseModal}/>
-                                
+                                <Checkbox borderColor="black">Show me in the member list of company</Checkbox>
                             </Box>
 
                             <Box
