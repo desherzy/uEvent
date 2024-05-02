@@ -12,7 +12,9 @@ const CompaniesList = () => {
     const fetchData = async () => {
       try {
         await fetchCompanies();
-        await fetchUserCompanies(user.id);
+        if(user) {``
+          await fetchUserCompanies(user.id);
+        }
         setLoading(false);
       } catch (error) {
         console.error('Error fetching companies:', error);
@@ -20,7 +22,7 @@ const CompaniesList = () => {
     };
 
     fetchData();
-  }, [fetchCompanies, fetchUserCompanies, user.id]);
+  }, [fetchCompanies, fetchUserCompanies]);
 
   return (
     <Center>

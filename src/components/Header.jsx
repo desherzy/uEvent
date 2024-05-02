@@ -20,7 +20,7 @@ const Header = () => {
   const { isAuthenticated, user } = useAuthStore();
 
   return (
-    <Box bg="white" color="white" py={4}>
+    <Box bg="#F4FDEB" color="white" py={4}>
       <Flex alignItems="center" justifyContent="space-between" mx="auto" maxW="50%">
         <Flex alignItems="center" w="80%">
           <Link to="/">
@@ -34,7 +34,7 @@ const Header = () => {
           <Input
             type="text"
             placeholder="Search"
-            bg="white"
+            bg="#F4FDEB"
             color="white"
             rounded="md"
             textColor="black"

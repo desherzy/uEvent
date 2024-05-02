@@ -11,9 +11,20 @@ import CompaniesList from "./components/company/CompaniesList.jsx";
 import CompanyPage from "./components/company/CompanyPage.jsx";
 import EventsPage from "./components/event/EventsPage.jsx";
 import EventPage from "./components/event/EventPage.jsx";
-import { ChakraProvider, Box, Spinner, Center } from '@chakra-ui/react';
+import {ChakraProvider, Box, Spinner, Center, Flex, CSSReset} from '@chakra-ui/react';
 import Image from './assets/background.jpg';
 import TicketsPage from "./components/ticket/TicketsPage.jsx";
+import Footer from "./components/Footer.jsx";
+import {Global} from "@emotion/react";
+
+const Layout = ({ children }) => {
+    return (
+        <Flex flexDirection="column" minHeight="100vh">
+            <Box flexGrow={1}>{children}</Box>
+            <Footer />
+        </Flex>
+    );
+};
 
 function App() {
     const { isAuthenticated, emailConfirmed, refreshUser } = useAuthStore();
@@ -83,7 +94,10 @@ function App() {
 
     return (
         <ChakraProvider>
+            <CSSReset />
+            <Global styles={{ body: { backgroundColor: "#F4FDEB" } }} />
             <BrowserRouter>
+                <Layout>
                  <Header />
                 <Routes>
                     <Route path='/registration' element={<Registration />} />
@@ -97,9 +111,11 @@ function App() {
                     <Route path='/company/:companyId' element={<CompanyPage />} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
+                </Layout>
             </BrowserRouter>
         </ChakraProvider>
     );
 }
+
 
 export default App
