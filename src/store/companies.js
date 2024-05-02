@@ -8,7 +8,6 @@ const useCompaniesStore = create((set) => ({
     error: null,
 
     createCompany: async (companyData) => {
-        console.log(companyData);
         try {
             const response = await $api.post('/company/', companyData);
 
@@ -84,6 +83,11 @@ const useCompaniesStore = create((set) => ({
         } catch (error) {
             console.error('Error registering user:', error);
         }
+    },
+
+    getCompanyById: (id) => {
+        const company = useCompaniesStore.getState().companies.find((company) => company.id === id);
+        return company;
     },
 
 }));

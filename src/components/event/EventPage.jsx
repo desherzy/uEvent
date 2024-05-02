@@ -4,11 +4,18 @@ import useEventsStore from "../../store/events.js";
 import EventMap from "../maps/EventMap.jsx";
 import {ModalBody} from "@chakra-ui/react";
 import UserList from "../users/UserList.jsx";
+import useCommentsStore from "../../store/comments.js";
+import CommentForm from "../comment/CommentForm.jsx";
+import CommentList from "../comment/CommentsList.jsx";
+import {useCompaniesStore} from "../../store/index.js";
 
 const EventPage = () => {
     const { eventId } = useParams();
     const { events, buyTicket, fetchEventUsers, eventUsers } = useEventsStore();
+    const { comments, fetchEventComments } = useCommentsStore();
+    const { getCompanyById } = useCompaniesStore();
     const event = events.find(ev => ev.id === parseInt(eventId));
+    const company = getCompanyById(event.company_id);
     const [notification, setNotification] = useState(null);
     const [eventLocation, setEventLocation] = useState({ lat: event.latitude, lng: event.longitude });
 
@@ -16,12 +23,15 @@ const EventPage = () => {
         const fetchData = async () => {
             try {
                 await fetchEventUsers(eventId);
+                await fetchEventComments(eventId);
+
             } catch (error) {
-                console.error('Error fetching users:', error);
+                console.error('Error fetching data:', error);
             }
         };
 
         fetchData();
+        console.log(comments);
     }, [fetchEventUsers]);
 
     const handleBuyTicket = async () => {
@@ -89,15 +99,19 @@ const EventPage = () => {
                     <p className="text-gray-600 mb-4">
                         End time: {new Date(event.end_time).toLocaleString()}
                     </p>
+
                     <h2 className="text-2xl font-bold mb-4">Company</h2>
+                    <div className="text-gray-600 mb-4 flex items-center">
+                        <img src={company.logo} alt="Company Logo" className="w-4 h-4 rounded-full mr-2"/>
+                        <p className="mb-0">{company.name}</p>
+                    </div>
+
+                    <div className="text-gray-600 mb-4">
+                        {company.location}
+                    </div>
+
                     <p className="text-gray-600 mb-4">
-                        Company ID: {event.company_id}
-                    </p>
-                    <p className="text-gray-600 mb-4">
-                        Created at: {new Date(event.createdAt).toLocaleString()}
-                    </p>
-                    <p className="text-gray-600 mb-4">
-                        Updated at: {new Date(event.updatedAt).toLocaleString()}
+                        event Created at: {new Date(event.createdAt).toLocaleString()}
                     </p>
                     <div className="mt-8">
                         <button onClick={handleBuyTicket}
@@ -109,11 +123,13 @@ const EventPage = () => {
                 </div>
             </div>
             <div className='mt-5'>
-                <div style={{position: 'relative', margin: 'auto', height: '400px', width: '60%', overflow: 'hidden' }}>
+                <div style={{position: 'relative', margin: 'auto', height: '400px', width: '60%', overflow: 'hidden'}}>
                     <EventMap event={event}/>
                 </div>
             </div>
             <UserList eventUsers={eventUsers} />
+            <CommentForm eventId={eventId}/>
+            <CommentList comments={comments} />
         </div>
     );
 };
