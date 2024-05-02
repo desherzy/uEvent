@@ -84,7 +84,7 @@ const CompanyPage = () => {
                 display="flex"
                 flexDirection="column"
                 justifyContent="center"
-                
+                borderRadius="1rem 0 0 1rem"
             >
                 {isOwner ? (
                     <Image
@@ -170,8 +170,14 @@ const CompanyPage = () => {
                 )}
             </Box>
 
-            <Box w="30%" h="100vh" backgroundColor="#49AA87" textAlign="center" overflowY="auto">
-                <Text fontSize="30px" fontWeight="bold" mb={4}>
+            <Box w="30%" 
+                h="100vh" 
+                backgroundColor="#49AA87" 
+                textAlign="center" 
+                overflowY="auto"
+                borderRadius="0 1rem 1rem 0"
+            >
+                <Text fontSize="30px" fontWeight="bold" mb={4} mt={4}>
                     Company events
                 </Text>
                 <div>

@@ -96,11 +96,12 @@ function Settings() {
                 bg="#49AA87"
                 boxShadow="lg"
                 p={4}
+                borderRadius="1rem"
             >
                 <Tabs variant="soft-rounded" colorScheme="green">
                     <TabList display="flex" justifyContent="space-around">
-                        <Tab>Personal</Tab>
-                        <Tab>Company</Tab>
+                        <Tab color="black">Personal</Tab>
+                        <Tab color="black">Company</Tab>
                     </TabList>
 
                     <TabPanels>

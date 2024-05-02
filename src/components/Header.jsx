@@ -1,57 +1,112 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuthStore } from "../store/index.js";
-import { Box, Flex, Input, Link as ChakraLink, Button, Image } from '@chakra-ui/react';
+import { useAuthStore } from '../store/index.js';
+import {
+  Box,
+  Flex,
+  Input,
+  Link as ChakraLink,
+  Button,
+  Image,
+  Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
+
 
 const Header = () => {
-    const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
 
-    return (
-        <Box bg="gray.800" color="white" py={4}>
-            <Flex alignItems="center" justifyContent="space-between" mx="auto" px={4} maxW="xl">
+  return (
+    <Box bg="white" color="white" py={4}>
+      <Flex alignItems="center" justifyContent="space-between" mx="auto" maxW="50%">
+        <Flex alignItems="center" w="80%">
+          <Link to="/">
+            <Image
+              src="https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/external-ticket-magic-and-fairy-tale-icongeek26-linear-colour-icongeek26.png"
+              alt="Logo"
+              h={10}
+              mr={4}
+            />
+          </Link>
+          <Input
+            type="text"
+            placeholder="Search"
+            bg="white"
+            color="white"
+            rounded="md"
+            textColor="black"
+            border="1px"
+            borderColor="black"
+          />
+        </Flex>
+        <Flex alignItems="center" ml={4}>
+        <Menu>
+            <MenuButton
+              as={Button}
+              bg="transparent"
+              color="black"
+              _hover={{ color: 'gray.300' }}
+              _expanded={{ bg: 'white.600' }}
+              border="1px" borderColor="black"
+              mr={3}
+              w="50%"
+            >
+              Menu
+            </MenuButton>
+            <MenuList>
+              <MenuItem as={Link} to="/events" textColor="black">
+                Events
+              </MenuItem>
+              <MenuItem as={Link} to="/companies" textColor="black">
+                Companies
+              </MenuItem>
+              {isAuthenticated && (
+                <MenuItem as={Link} to="/tickets" textColor="black">
+                  Tickets
+                </MenuItem>
+              )}
+            </MenuList>
+          </Menu>
+          <Menu>
+            <MenuButton
+              as={Button}
+              bg="transparent"
+              color="black"
+              _hover={{ color: 'white.300' }}
+              _expanded={{ bg: 'white.600' }}
+              border="1px" borderColor="black"
+              w="80%"
+            >
+              {isAuthenticated ? (
                 <Flex alignItems="center">
-                    <Image src="https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/external-ticket-magic-and-fairy-tale-icongeek26-linear-colour-icongeek26.png" alt="Logo" h={8} mr={4} />
-                    <Input
-                        type="text"
-                        placeholder="Search"
-                        bg="gray.700"
-                        color="white"
-                        px={4}
-                        py={2}
-                        rounded="md"
-                        _focus={{ bg: 'gray.600' }}
-                        _placeholder={{ color: 'gray.300' }}
-                        focusBorderColor="transparent"
-                        outline="none"
-                    />
+                  <Image src={user.profileImage} 
+                    alt="user" 
+                    borderRadius="full" 
+                    boxSize={8} 
+                    mr={2} 
+                />
+                  <Text>{user.firstName}</Text>
                 </Flex>
-                <Flex alignItems="center" ml={4}>
-                    <ChakraLink as={Link} to="/events" color="white" _hover={{ color: 'gray.300' }} mr={4}>
-                        Events
-                    </ChakraLink>
-                    <ChakraLink as={Link} to="/companies" color="white" _hover={{ color: 'gray.300' }} mr={4}>
-                        Companies
-                    </ChakraLink>
-                    {isAuthenticated && (
-                        <ChakraLink as={Link} to="/tickets" color="white" _hover={{ color: 'gray.300' }} mr={4}>
-                            Tickets
-                        </ChakraLink>
-                    )}
-                    {isAuthenticated ? (
-                        <Link to="/settings">
-                            <Image src={user.profileImage} alt="user" h={8} mr={4} />
-                        </Link>
-                    ) : (
-                        <a href="http://localhost:5173/login">
-                            <Button bg="blue.500" _hover={{ bg: 'blue.600' }} color="white" fontWeight="bold" py={2} px={4} rounded="md">
-                                Login
-                            </Button>
-                        </a>
-                    )}
-                </Flex>
-            </Flex>
-        </Box>
-    );
+              ) : (
+                'Login'
+              )}
+            </MenuButton>
+            <MenuList>
+              {isAuthenticated ? (
+                <MenuItem as={Link} to="/settings" textColor="black">Settings</MenuItem>
+                
+              ) : (
+                <MenuItem as={Link} to="/login" textColor="black">Login</MenuItem>
+              )}
+            </MenuList>
+          </Menu>
+        </Flex>
+      </Flex>
+    </Box>
+  );
 };
 
 export default Header;
