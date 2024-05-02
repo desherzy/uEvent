@@ -6,6 +6,7 @@ const useCompaniesStore = create((set) => ({
     userCompanies: [],
 
     createCompany: async (companyData) => {
+        console.log(companyData);
         try {
             const response = await $api.post('/company/', companyData);
 
