@@ -17,6 +17,11 @@ class CommentService {
             event_id: eventId
         });
 
+        const user = await User.findByPk(userId);
+        comment.dataValues.firstName = user.first_name;
+        comment.dataValues.surname = user.surname;
+        comment.dataValues.profileImage = user.profile_image;
+
         return comment;
     }
 

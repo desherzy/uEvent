@@ -48,7 +48,6 @@ class CompanyController {
 
     async deleteCompany(req, res, next) {
         try {
-            const user = req.user.id;
             const companyId = req.params.id;
 
             await companyService.deleteCompany(companyId);
