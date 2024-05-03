@@ -15,7 +15,7 @@ function UserList({eventUsers}) {
 
     return (
         <Flex justify="center" borderRadius="1rem" border="1px" w="50%" margin="10">
-            <Box width="70%" h='50vh'>
+            <Box width="70%" maxH='50vh'>
                 <Box textAlign="center" fontSize="xl" fontWeight="bold" mt={0}>Members</Box>
                 <List overflowY="auto" height="30vh" spacing={4} paddingY={4}>
                     {eventUsers.map((participant) => (
