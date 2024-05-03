@@ -1,6 +1,7 @@
 import React from 'react';
-import useEventsStore from "../../store/events.js";
-import {useNavigate} from "react-router-dom";
+import { Box, Flex, Image, Text, Button } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import useEventsStore from '../../store/events';
 
 const TicketItem = ({ ticket }) => {
     const { getEventById } = useEventsStore();
@@ -11,25 +12,34 @@ const TicketItem = ({ ticket }) => {
         navigate(`/events/${ticket.event_id}`);
     };
 
-
     return (
-        <div className="bg-white shadow-md rounded px-4 py-6 mb-4">
-            <div className="flex items-center mb-4">
-                <img src={event.card_image} alt={event.name} className="w-24 h-24 rounded-full mr-4"/>
+        <Box bg="white" boxShadow="md" rounded="md" p={6} mb={4}>
+            <Flex alignItems="center" mb={4}>
+                <Image src={event.card_image} alt={event.name} boxSize="100px" rounded="full" mr={4} />
                 <div>
-                    <h3 className="text-lg font-bold">{event.name}</h3>
-                    <p className="text-gray-600">{event.start_time}</p>
+                    <Text fontSize="lg" fontWeight="bold">
+                        {event.name}
+                    </Text>
+                    <Text color="gray.600"> Begin: {new Date(event.start_time).toLocaleString()}</Text>
                 </div>
-            </div>
-            <div className="flex justify-between mb-4">
-                <p>Bought at: {ticket.createdAt}</p>
-                <p>Status: {ticket.status}</p>
-            </div>
-            <button onClick={handleVisitClick}
-                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+            </Flex>
+            <Flex justify="space-between" mb={4}>
+                <Text fontSize="14">Bought at: {new Date(ticket.createdAt).toLocaleString()}</Text>
+                <Text borderRadius="0.5rem" bg='orange.500' textAlign="center" fontWeight="bold" textColor="white" w="7%" h="30px">{ticket.status}</Text>
+            </Flex>
+            <Button
+                onClick={handleVisitClick}
+                bg="orange.500"
+                _hover={{ bg: 'orange.700' }}
+                color="white"
+                fontWeight="bold"
+                py={2}
+                px={4}
+                rounded="md"
+            >
                 View
-            </button>
-        </div>
+            </Button>
+        </Box>
     );
 };
 
