@@ -2,7 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import useEventsStore from "../../store/events.js";
 import EventMap from "../maps/EventMap.jsx";
-import {Button, ModalBody} from "@chakra-ui/react";
+import {Box, 
+    Button,
+    Heading,
+    Flex,
+    Center,
+    Image,
+    Text,
+    ModalBody} from "@chakra-ui/react";
 import UserList from "../users/UserList.jsx";
 import useCommentsStore from "../../store/comments.js";
 import CommentForm from "../comment/CommentForm.jsx";
