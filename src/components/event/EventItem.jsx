@@ -1,31 +1,48 @@
 import React from 'react';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { Box, Image, Text, Button } from '@chakra-ui/react';
 
-const EventItem = ({event}) => {
-    const navigate = useNavigate();
+const EventItem = ({ event }) => {
+  const navigate = useNavigate();
 
-    const handleVisitClick = () => {
-        navigate(`/events/${event.id}`);
-    };
+  const handleVisitClick = () => {
+    navigate(`/events/${event.id}`);
+  };
 
-    return (
-        <div className="bg-white shadow-md rounded-lg overflow-hidden w-72">
-            <img className="w-full h-32 object-cover object-center" src={event.card_image} alt={event.name}/>
-            <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2">{event.name}</h3>
-                <p className="text-gray-700 mb-2">{event.description}</p>
-                <div className="flex justify-between items-center">
-                    <p className="text-gray-600">Ticket Price: {event.ticket_price}</p>
-                    <p className="text-gray-600">Start Time: {event.start_time}</p>
-                </div>
-                <p className="text-gray-600">End Time: {event.end_time}</p>
-                <button onClick={handleVisitClick}
-                        className="mt-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                    Go
-                </button>
-            </div>
-        </div>
-    );
+  return (
+    <Box bg="white" boxShadow="md" rounded="lg" overflow="hidden" w="72">
+      <Image src={event.card_image} alt={event.name} h="32" objectFit="cover" objectPosition="center" />
+      <Box p="4">
+        <Text fontSize="lg" fontWeight="semibold" mb="2">
+          {event.name}
+        </Text>
+        <Text color="gray.700" mb="2">
+          {event.description}
+        </Text>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Text color="gray.600">Ticket Price: {event.ticket_price}</Text>
+          <Text color="gray.600">Start Time: {event.start_time}</Text>
+        </Box>
+        <Text color="gray.600" mb="2">
+          End Time: {event.end_time}
+        </Text>
+        <Button
+          mt="2"
+          px="4"
+          py="2"
+          bg="blue.500"
+          color="white"
+          fontWeight="semibold"
+          rounded="lg"
+          shadow="md"
+          _hover={{ bg: 'blue.600' }}
+          onClick={handleVisitClick}
+        >
+          Go
+        </Button>
+      </Box>
+    </Box>
+  );
 };
 
 export default EventItem;

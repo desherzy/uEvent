@@ -99,6 +99,22 @@ const useEventsStore = create((set) => ({
         }
     },
 
+    deleteEvent: async (eventId) => {
+        try {
+            const response = await $api.delete(`/event/${eventId}`);
+
+            if (response.status === 200) {
+                set((state) => ({
+                    events: state.events.filter(event => event.id !== eventId)
+                }));
+            } else {
+                console.error('Error deleting event:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error deleting event:', error);
+        }
+    },
+
     getEventById: (id) => {
         const event = useEventsStore.getState().events.find((event) => event.id === id);
         return event;

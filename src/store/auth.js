@@ -117,23 +117,23 @@ const useAuthStore = create((set) => ({
         }
       },
 
-      toogleNotifications: async (newValue) => {
-        try {
-         const response = await $api.post('/users/notification', { notifications: newValue });
-    
-          const { notifications } = response.data;
-          set((state) => ({
-            ...state,
-            user: {
-              ...state.user,
-              notifications: notifications,
-            },
-          }));
-  
-        } catch (error) {
-          console.error('Error uploading avatar:', error);
-        }
-      },
+  toggleNotifications: async (newValue) => {
+    try {
+      const response = await $api.post('/users/notification', { notifications: newValue });
+
+      const { notifications } = response.data;
+      set((state) => ({
+        ...state,
+        user: {
+          ...state.user,
+          notifications: notifications,
+        },
+      }));
+
+    } catch (error) {
+      console.error('Error uploading avatar:', error);
+    }
+  },
   }));
   
 

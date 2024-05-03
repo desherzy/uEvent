@@ -26,7 +26,6 @@ const CompanyPage = () => {
     const isOwner = userCompanies.some((company) => company.id === parseInt(companyId));
 
     useEffect(() => {
-        // Populate form fields with selected company data
         if (selectedCompany) {
             setName(selectedCompany.name);
             setDescription(selectedCompany.description);
@@ -60,9 +59,7 @@ const CompanyPage = () => {
         };
     
         try {
-            await updateCompany(updatedCompany, companyId); // Call updateCompany from Zustand store
-            // Optionally, you could handle success or navigate after update
-            window.location.reload();
+            await updateCompany(updatedCompany, companyId);
         } catch (error) {
             console.error('Error updating company:', error);
         }
@@ -170,7 +167,7 @@ const CompanyPage = () => {
                 )}
             </Box>
 
-            <Box w="30%" 
+            <Box
                 h="100vh" 
                 backgroundColor="#49AA87" 
                 textAlign="center" 
