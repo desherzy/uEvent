@@ -30,6 +30,9 @@ const EventItem = ({ event }) => {
             <Tag colorScheme="green" variant="solid" size="md" mr={4}>
               {event.ticket_price}$
             </Tag>
+            <Tag colorScheme="blue" variant="solid" size="md" mr={4}>
+              {event.categoryName}
+            </Tag>
           </Box>
           <Box bg="gray.100" p={2} borderRadius="md">
             <Text color="gray.600" fontWeight="bold">Start Time:</Text>
