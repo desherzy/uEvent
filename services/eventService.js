@@ -2,8 +2,11 @@ const Event = require('../models/Event');
 const Category = require('../models/Category');
 const EventCategory  = require('../models/EventCategory');
 const Ticket = require('../models/Ticket');
+const User = require('../models/User');
 const ApiError = require("../exceptions/apiError");
+const mailService = require('../services/mailService');
 const {where} = require("sequelize");
+const { Op } = require('sequelize');
 
 class EventService {
     async getEvent(id){
@@ -94,6 +97,35 @@ class EventService {
 
     }
 
+    async findEventsAndSendNotifications() {
+        const users = await User.findAll({
+            where: { notifications: true }
+        });
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        for (const user of users) {
+            const tickets = await Ticket.findAll({
+                where: { user_id: user.id }
+            });
+
+            for (const ticket of tickets) {
+                const event = await Event.findOne({
+                    where: {
+                        id: ticket.event_id,
+                        start_time: {
+                            [Op.between]: [today, new Date(today.getTime() + 24 * 60 * 60 * 1000)]
+                        }
+                    }
+                });
+
+                if (event) {
+                    await mailService.sendNotification(user.email, event);
+                }
+            }
+        }
+    }
 
 }
 

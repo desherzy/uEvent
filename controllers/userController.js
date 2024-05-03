@@ -108,6 +108,17 @@ class UserController {
         }
     }
 
+    async toggleNotification(req, res, next) {
+        try {
+            const userId = req.user.id;
+            const { notifications } = req.body;
+            const newNotification = await userService.toggleNotifications(userId, notifications);
+            res.json(newNotification);
+        } catch(e) {
+            next(e);
+        }
+    }
+
 }
 
 module.exports = new UserController();

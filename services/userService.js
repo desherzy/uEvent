@@ -80,14 +80,10 @@ class UserService {
             if (!user) {
                 throw ApiError.badRequest('User exists');
             } else {
-
-                // TO DO: finish later
-
                 await Links.destroy({where: {user_id: id}});
                 await Tokens.destroy({where: {user_id: id}});
 
                 await User.destroy({where: {id: id}});
-                console.log('User[' + id + '] deleted');
             }
         } catch (error) {
             console.error('Error deleting user:', error);
@@ -148,6 +144,18 @@ class UserService {
         } catch (error) {
             throw error;
         }
+    }
+
+    async toggleNotifications(userId, notificationValue) {
+        const user = await User.findOne({where: {id: userId}});
+
+        if (!user) {
+            throw ApiError.badRequest('User not found');
+        }
+
+        user.notifications = notificationValue;
+        await user.save();
+        return { notifications: notificationValue };
     }
 
 

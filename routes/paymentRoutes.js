@@ -9,9 +9,7 @@ router.post(
     param('userId').isInt({min: 0}),
     body('eventId').isInt({min: 0}),
     body('ticketsQuantity').isInt({min: 0}),
-    authMiddleware,
-    await paymentController.beginBuyingTickets()
-);
+    authMiddleware, paymentController.beginBuyingTickets);
 router.post(
     process.env.STRIPE_WEBHOOK_URL,
     paymentController.webhookHandler
