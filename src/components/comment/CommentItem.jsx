@@ -7,7 +7,7 @@ const CommentItem = ({ comment }) => {
     return (
         <Box p={4} borderWidth="1px" borderRadius="lg">
             <Flex align="center">
-                <Avatar src={profileImage} name={`${firstName} ${surname}`} />
+                <Avatar src={comment.profileImage} alt="img" />
                 <Spacer />
                 <Text>{firstName} {surname}</Text>
             </Flex>

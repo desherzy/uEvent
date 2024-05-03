@@ -4,7 +4,7 @@ import CommentItem from './CommentItem';
 
 const CommentList = ({ comments }) => {
     return (
-        <VStack spacing={4} align="stretch">
+        <VStack mb="20" spacing={4} align="stretch" maxH="40vh" overflowY="auto">
             {comments.map((comment) => (
                 <CommentItem key={comment.id} comment={comment} />
             ))}

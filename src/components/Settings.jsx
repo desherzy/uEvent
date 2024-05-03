@@ -219,9 +219,10 @@ function Settings() {
                                 textAlign="center"
                                 
                             >
-                                <Button type='button' color='blue' margin={4} onClick={handleCreateCompany}>Create Company</Button>
+
+                                <Checkbox borderColor="black">Don`t show me in the member list of event</Checkbox>
+                                <Button type='button' color='blue' width='80%' margin={4} onClick={handleCreateCompany}>Create Company</Button>
                                 <CreateCompanyModal isOpen={isModalOpen} onClose={handleCloseModal}/>
-                                <Checkbox borderColor="black">Show me in the member list of company</Checkbox>
                             </Box>
 
                             <Box

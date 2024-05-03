@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { useCompaniesStore } from '../../store/index.js';
 import CreateEventModal from '../event/CreateEventModal.jsx';
 import EventItem from '../event/EventItem.jsx';
@@ -17,8 +17,8 @@ const CompanyPage = () => {
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
     const { companyId } = useParams();
-
-    const { companies, userCompanies, uploadLogo, updateCompany } = useCompaniesStore();
+    const navigate = useNavigate();
+    const { companies, userCompanies, uploadLogo, updateCompany, deleteCompany } = useCompaniesStore();
     const { getEventsByCompanyId } = useEventsStore();
     const events = getEventsByCompanyId(companyId);
 
@@ -46,8 +46,9 @@ const CompanyPage = () => {
         input.click();
     };
 
-    const handleDeleteCompany = () => {
-        // TODO: Implement delete company functionality
+    const handleDeleteCompany = async () => {
+        await deleteCompany(companyId);
+        navigate("/settings", {replace: true});
     };
 
     const handleSubmitChanges = async (e) => {
