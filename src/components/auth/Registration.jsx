@@ -139,17 +139,20 @@ function Registration() {
               <FormErrorMessage>{errors.repeatPassword}</FormErrorMessage>
             </FormControl>
 
+            <Box mt={3}>
+              <Text>Already have an account?</Text>
+              <ChakraLink as={ReactRouterLink} to='/login' textColor='blue'>Sign in here.</ChakraLink>
+            </Box>
+
             <Button type="submit" 
-              w='auto' 
+              w='70%'
+              mt={35}
               color='#49AA87' 
               alignSelf='center'
             >Continue</Button>
           
           </form>
-          <Box mt={3}>
-            <Text>Already have an account?</Text>
-            <ChakraLink as={ReactRouterLink} to='/login' textColor='blue'>Sign in here.</ChakraLink>
-          </Box>
+
         </Box>
       </div>
   );

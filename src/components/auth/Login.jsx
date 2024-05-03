@@ -107,23 +107,25 @@ function Login() {
                                 placeholder="Password"/>
                     </FormControl>
 
+                    <Box mt={15}>
+                        <Text>Don't have an account?</Text>
+                        <ChakraLink as={ReactRouterLink} to='/registration' textColor='blue'>Register here.</ChakraLink>
+                    </Box>
+
                     <Button type="submit" 
-                        w='auto' 
+                        w='80%'
                         color='#49AA87' 
                         alignSelf='center' 
-                        m={3}
+                        mt={150}
                     >Continue</Button>
-                    <Button type="button" 
-                        w='auto' 
+                    <Button type="button"
+                        w='80%'
+                        m={3}
                         color='red' 
-                        alignSelf='center' 
+                        alignSelf='center'
                         onClick={handleForgotPassword}
-                    >Forgot password? (don't work)</Button>
+                    >Forgot password?</Button>
                 </form>
-                <Box mt={3}>
-                    <Text>Don't have an account?</Text>
-                    <ChakraLink as={ReactRouterLink} to='/registration' textColor='blue'>Register here.</ChakraLink>
-                </Box>
             </Box>
         </div>
     );

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import useEventsStore from "../../store/events.js";
 import EventMap from "../maps/EventMap.jsx";
 import {ModalBody} from "@chakra-ui/react";
@@ -10,14 +10,19 @@ import CommentList from "../comment/CommentsList.jsx";
 import {useCompaniesStore} from "../../store/index.js";
 
 const EventPage = () => {
+    const navigate = useNavigate();
     const { eventId } = useParams();
-    const { events, buyTicket, fetchEventUsers, eventUsers } = useEventsStore();
+    const { events, buyTicket, fetchEventUsers, eventUsers, deleteEvent } = useEventsStore();
     const { comments, fetchEventComments } = useCommentsStore();
-    const { getCompanyById } = useCompaniesStore();
+    const { getCompanyById, userCompanies } = useCompaniesStore();
     const event = events.find(ev => ev.id === parseInt(eventId));
     const company = getCompanyById(event.company_id);
     const [notification, setNotification] = useState(null);
     const [eventLocation, setEventLocation] = useState({ lat: event.latitude, lng: event.longitude });
+
+    const isUserCompany = () => {
+        return userCompanies.some(userCompany => userCompany.id === company.id);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,7 +36,6 @@ const EventPage = () => {
         };
 
         fetchData();
-        console.log(comments);
     }, [fetchEventUsers]);
 
     const handleBuyTicket = async () => {
@@ -45,6 +49,11 @@ const EventPage = () => {
             setTimeout(() => setNotification(null), 3000);
         }
     };
+
+    const handleDeleteEvent = async () => {
+        await deleteEvent(eventId);
+        navigate("/events", {replace: true});
+    }
 
 
     return (
@@ -118,6 +127,12 @@ const EventPage = () => {
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Buy Ticket
                         </button>
+                        {isUserCompany() && (
+                            <button onClick={handleDeleteEvent}
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                Delete Event
+                            </button>
+                        )}
                     </div>
 
                 </div>

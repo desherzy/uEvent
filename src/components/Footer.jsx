@@ -3,7 +3,7 @@ import { Box, Flex, Text, Link } from '@chakra-ui/react';
 
 const Footer = () => {
     return (
-        <Box as="footer" bg="green.500" py={6} color="white" mt={20}>
+        <Box as="footer" bg="green.500" py={6} color="white" >
             <Flex justifyContent="space-between" alignItems="center" maxW="1200px" mx="auto">
                 <Text fontSize="sm" fontWeight="bold">
                     © 2024. All rights reserved.

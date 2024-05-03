@@ -60,7 +60,6 @@ const CompanyPage = () => {
     
         try {
             await updateCompany(updatedCompany, companyId);
-            window.location.reload();
         } catch (error) {
             console.error('Error updating company:', error);
         }
