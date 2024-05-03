@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Heading, Text, Button } from '@chakra-ui/react';
+import {Box, Heading, Image, Text, Button, Flex} from '@chakra-ui/react';
 
 const CompanyItem = ({ company }) => {
     const navigate = useNavigate();
@@ -17,30 +17,47 @@ const CompanyItem = ({ company }) => {
     };
 
     return (
-        <Box borderWidth="1px" borderRadius="md" borderColor="black" p="2" mb="2" backgroundColor="#E2E8F0">
-            <Heading as="h3" size="md" fontWeight="semibold" mb="2" margin="a">
-                {company.name}
-            </Heading>
-            <Text color="gray.600" mb="2">
-                {truncateDescription(company.description, 100)}
-            </Text>
-            <Text fontSize="sm" color="gray.500" mb="2">
-                {company.location}
-            </Text>
+        <Box
+            bg="white"
+            boxShadow="md"
+            rounded="md"
+            p="4"
+            mb="4"
+            w="100%"
+            maxW="500px"
+        >
+            <Flex alignItems="center" mb="4">
+                <Image
+                    src={company.logo}
+                    alt={company.name}
+                    boxSize="100px"
+                    objectFit="cover"
+                    rounded="full"
+                    mr="4"
+                />
+                <div>
+                    <Text fontSize="lg" fontWeight="bold">
+                        {company.name}
+                    </Text>
+                    <Text color="gray.600">{truncateDescription(company.description, 100)} ...</Text>
+                </div>
+            </Flex>
+            <Flex justify="space-between" mb="4">
+                <Text fontSize="14">Location: {company.location}</Text>
+            </Flex>
             <Button
                 onClick={handleVisitClick}
-                mt="2"
-                px="4"
-                py="2"
-                bg="blue.500"
+                bg="green.500"
+                _hover={{ bg: 'green.700' }}
                 color="white"
-                fontWeight="semibold"
-                rounded="lg"
-                shadow="md"
-                _hover={{ bg: 'blue.600' }}
-                _focus={{ outline: 'none', bg: 'blue.600' }}
+                fontWeight="bold"
+                py={2}
+                px={4}
+                rounded="md"
+                w="100%"
+                _focus={{ boxShadow: 'none' }}
             >
-                Go
+                Visit
             </Button>
         </Box>
     );

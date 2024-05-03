@@ -29,7 +29,7 @@ const TicketsPage = () => {
                     />
                 </Center>
             ) : (
-                <div>
+                <div className="flex flex-col items-center">
                     <h2 className="text-3xl font-bold mb-4">My Ticket List</h2>
                     {(Array.isArray(tickets) && tickets.length > 0) ? (
                         tickets.map(ticket => (

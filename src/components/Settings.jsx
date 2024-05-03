@@ -100,8 +100,9 @@ function Settings() {
             <Box
                 w="60%"
                 h="100vh"
-                bg="#49AA87"
+                bg="#38a169"
                 boxShadow="lg"
+                mb='50px'
                 p={4}
                 borderRadius="1rem"
             >

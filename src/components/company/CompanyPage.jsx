@@ -79,6 +79,8 @@ const CompanyPage = () => {
                 textAlign="center"
                 overflowY="auto"
                 p={6}
+                mt="30px"
+                mb="50px"
                 display="flex"
                 flexDirection="column"
                 justifyContent="center"
@@ -173,6 +175,8 @@ const CompanyPage = () => {
                 backgroundColor="#49AA87" 
                 textAlign="center" 
                 overflowY="auto"
+                mt="30px"
+                mb="50px"
                 borderRadius="0 1rem 1rem 0"
             >
                 <Text fontSize="30px" fontWeight="bold" mb={4} mt={4}>

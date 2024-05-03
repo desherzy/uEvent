@@ -36,7 +36,7 @@ const CompaniesList = () => {
           mt="40vh"
         />
       ) : (
-        <Box w="25%" h="100vh" p={6} backgroundColor="#49AA87" textAlign="center" borderRadius="1rem">
+        <Box w="25%" h="100vh" p={6} backgroundColor="#38a169" mb="50px" textAlign="center" borderRadius="1rem">
           <Text fontSize="xl" fontWeight="semibold" mb={4}>
             Companies List
           </Text>
