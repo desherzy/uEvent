@@ -2,27 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { useAuthStore, useCompaniesStore } from "../store/index.js";
 import CreateCompanyModal from "./company/CreateCompanyModal.jsx";
 import CompanyItem from "./company/CompanyItem.jsx";
-import { Center, 
-    Box, 
-    Input, 
-    Button, 
-    Heading, 
-    Text, 
+import {
+    Center,
+    Box,
+    Input,
+    Button,
+    Heading,
+    Text,
     Checkbox,
     AlertDialog,
-    AlertDialogOverlay, 
-    AlertDialogContent, 
-    AlertDialogHeader, 
-    AlertDialogBody, 
-    AlertDialogFooter, 
-    Tabs, 
-    Tab, 
-    TabList, 
-    TabPanel, 
-    TabPanels } from '@chakra-ui/react';
+    AlertDialogOverlay,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogBody,
+    AlertDialogFooter,
+    Tabs,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels, Switch, FormLabel
+} from '@chakra-ui/react';
 
 function Settings() {
-    const { logoutUser, uploadAvatar, updateUser, deleteUser, user } = useAuthStore();
+    const { logoutUser, uploadAvatar, updateUser, deleteUser, user, toggleNotifications } = useAuthStore();
     const { fetchUserCompanies, userCompanies } = useCompaniesStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [firstName, setFirstName] = useState('');
@@ -36,6 +38,11 @@ function Settings() {
         };
         fetchUserCompany();
     }, [fetchUserCompanies]);
+
+    const handleToggleNotifications = async () => {
+        const updatedNotifications = !user.notifications;
+        await toggleNotifications(updatedNotifications);
+    };
 
     const handleUpdateUser = async () => {
         const updatedUser = {
@@ -114,6 +121,9 @@ function Settings() {
                                 backgroundColor='#E2E8F0'
                                 textAlign="center"
                                 overflowY="auto"
+                                display="flex"
+                                flexDirection="column"
+                                alignItems="center"
                             >
                                 <Text fontSize={24} mb={4}>What do you want to change?</Text>
                                 <Input placeholder='Name' type='text' borderColor='black' mb={4} value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
@@ -121,10 +131,20 @@ function Settings() {
                                 <Input placeholder='Email' type='text' borderColor='black' mb={4} value={email} onChange={(e) => setEmail(e.target.value)}/>
                                 <Input placeholder='Password' type='password' borderColor='black' mb={4}/>
 
-                                <Button type='button' color='#49AA87' onClick={handleUpdateUser} margin={4}>Save changes</Button>
-                                <Button type='button' color='red' onClick={handleLogout} margin={4}>Logout</Button>
-                                <Button type='button' color='red' onClick={handleDeleteAccount} margin={4}>Delete account</Button>
-                                <Checkbox borderColor="black">Notifications</Checkbox>
+                                <Button type='button' w='50%' color='#49AA87' onClick={handleUpdateUser} margin={2}>Save changes</Button>
+                                <Button type='button' w='50%' color='red' onClick={handleLogout} margin={2}>Logout</Button>
+                                <Button type='button' w='50%' color='red' onClick={handleDeleteAccount} margin={2}>Delete account</Button>
+
+                                <Box display="flex" alignItems="center" mt={4}>
+                                    <FormLabel htmlFor="email-notifications" flex="1" mr={4}>
+                                        Email Notifications
+                                    </FormLabel>
+                                    <Switch
+                                        id="email-notifications"
+                                        isChecked={user.notifications}
+                                        onChange={handleToggleNotifications}
+                                    />
+                                </Box>
 
                                 <AlertDialog
                                     isOpen={isDeleteAlertOpen}
@@ -185,8 +205,7 @@ function Settings() {
                                     />
                                 </div>
 
-                                <Text>Name: {user.firstName}</Text>
-                                <Text>Surname: {user.surname}</Text>
+                                <Heading textAlign='center' fontSize={18} mb={4}>{user.firstName} {user.surname}</Heading>
                                 <Text>Email: {user.email}</Text>
                             </Box>
                         </TabPanel>
