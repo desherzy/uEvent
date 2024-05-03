@@ -12,10 +12,24 @@ const useCompaniesStore = create((set) => ({
             const response = await $api.post('/company/', companyData);
 
             set((state) => ({
-                companies: [...state.companies, response.data]
+                companies: [...state.companies, response.data],
+                userCompanies: [...state.userCompanies, response.data],
             }));
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error('Error creating company:', error);
+        }
+    },
+
+    deleteCompany: async (companyId) => {
+        try {
+            const response = await $api.delete(`/company/${companyId}`);
+
+            set((state) => ({
+                companies: state.companies.filter(company => company.id !== companyId),
+                userCompanies: state.userCompanies.filter(company => company.id !== companyId)
+            }));
+        } catch (error) {
+            console.error('Error deleting company:', error);
         }
     },
 
@@ -24,7 +38,7 @@ const useCompaniesStore = create((set) => ({
             const response = await $api.get('/company/');
             set({ companies: response.data });
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error('Error fetching companies:', error);
         }
     },
 
@@ -33,7 +47,7 @@ const useCompaniesStore = create((set) => ({
             const response = await $api.get(`/company/user/${userid}`);
             set({ userCompanies: response.data });
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error('Error fetching user companies:', error);
         }
     },
 
@@ -81,7 +95,7 @@ const useCompaniesStore = create((set) => ({
                 };
             });
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error('Error uploading logo:', error);
         }
     },
 
