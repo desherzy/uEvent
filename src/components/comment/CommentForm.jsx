@@ -9,15 +9,21 @@ import {
     useColorModeValue,
     FormErrorMessage,
 } from '@chakra-ui/react';
-import {useCommentsStore} from "../../store/index.js";
+import {useAuthStore, useCommentsStore} from "../../store/index.js";
+import {useNavigate} from "react-router-dom";
 
 const CommentForm = ({ eventId }) => {
     const [content, setContent] = useState("");
     const { createComment } = useCommentsStore();
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuthStore();
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(!isAuthenticated) {
+            navigate(`/login/`, { replace: true });
+        }
         await createComment(content, eventId);
     };
 

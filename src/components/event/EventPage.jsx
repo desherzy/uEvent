@@ -20,7 +20,7 @@ import {useCompaniesStore} from "../../store/index.js";
 const EventPage = () => {
     const navigate = useNavigate();
     const { eventId } = useParams();
-    const { user } = useAuthStore();
+    const { user, isAuthenticated } = useAuthStore();
     const { events, buyTicket, fetchEventUsers, eventUsers, deleteEvent } = useEventsStore();
     const { comments, fetchEventComments } = useCommentsStore();
     const { getCompanyById, userCompanies } = useCompaniesStore();
@@ -48,35 +48,14 @@ const EventPage = () => {
     }, [fetchEventUsers]);
 
     const handleBuyTicket = async () => {
-        console.log(user.id);
-        fetch(
-            "http://localhost:3001/buy-tickets/:" + user.id,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    eventId: eventId,
-                    ticketsQuantity: 1
-                })
-            }
-        ).then(
-            function(res) {
-                if (res.ok) {
-                    return res.json()
-                }
-                return res.json().then(json => Promise.reject(json))
-            }
-        ).then(
-            function({url}) {
-                window.location = url
-            }
-        ).catch(
-            function(err) {
-                console.error(err.error)
-            }
-        )
+        if(!isAuthenticated) {
+            navigate(`/login/`, { replace: true });
+        } else {
+            await buyTicket(eventId);
+
+         //   window.location = "https://checkout.stripe.com/c/pay/cs_test_a1aOikGEo9qPyHRKOTK26pnyympx418xqzZ5h37B7M6Xdpa0HgB5LpmgR7#fidkdWxOYHwnPyd1blpxYHZxWjA0VUY1bFZDYjR3ZDxPS3Y1dF1hNHxvcTwzNlw2XX1kS2xdZkpWa1F9UnVJRG5vYkIwPW1pUGdjSlAxV2hSZ2h9V0xJcDBBXV1PSjBgMm1PVGs0dldPakRDNTVzaUdrRkpEMScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl";
+        }
+
     };
 
     const handleDeleteEvent = async () => {
@@ -93,7 +72,7 @@ const EventPage = () => {
           )}
           <Box w="100%" backgroundColor="#E2E8F0" borderRadius="1rem">
               <Box position="relative" color='red'>
-                  <Box position="absolute" top="40px" left="20px" zIndex="1">
+                  <Box position="absolute" bottom="40px" left="20px" zIndex="1">
                       <Heading as="h1" size="xl" color="white" fontWeight="bold" fontSize="30">
                           {event.name}
                       </Heading>
@@ -103,7 +82,8 @@ const EventPage = () => {
                           </Link>
                       </Heading>
                   </Box>
-                  <Box position="absolute" top="30px" right="20px" zIndex="1">
+
+                  <Box position="absolute" top="20px" left="20px" zIndex="1">
                       <Heading as="h1" size="xl" color="white" fontWeight="bold" fontSize="30">
                           {event.categoryName}
                       </Heading>

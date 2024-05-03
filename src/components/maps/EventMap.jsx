@@ -20,5 +20,5 @@ const EventMap = ({ event, google }) => {
 };
 
 export default GoogleApiWrapper({
-    apiKey: ''
+    apiKey: 'AIzaSyBeWoFyLlQ66UEoLmP7iFTX1MDeDhbnHGE'
 })(EventMap);
