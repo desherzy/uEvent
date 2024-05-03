@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
+import {useAuthStore} from "../../store/index.js"
 import useEventsStore from "../../store/events.js";
 import EventMap from "../maps/EventMap.jsx";
 import {Box, 
@@ -19,6 +20,7 @@ import {useCompaniesStore} from "../../store/index.js";
 const EventPage = () => {
     const navigate = useNavigate();
     const { eventId } = useParams();
+    const { userId } = useAuthStore();
     const { events, buyTicket, fetchEventUsers, eventUsers, deleteEvent } = useEventsStore();
     const { comments, fetchEventComments } = useCommentsStore();
     const { getCompanyById, userCompanies } = useCompaniesStore();
@@ -46,15 +48,34 @@ const EventPage = () => {
     }, [fetchEventUsers]);
 
     const handleBuyTicket = async () => {
-        try {
-            await buyTicket(eventId);
-            setNotification('Ticket successfully bought!');
-            setTimeout(() => setNotification(null), 3000);
-        } catch (error) {
-            console.error('Error buying ticket:', error);
-            setNotification('Failed to buy ticket. Please try again later.');
-            setTimeout(() => setNotification(null), 3000);
-        }
+        fetch(
+            "http://localhost:3001/buy_tickets/:" + userId,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    eventId: eventId,
+                    ticketsQuantity: 1
+                })
+            }
+        ).then(
+            function(res) {
+                if (res.ok) {
+                    return res.json()
+                }
+                return res.json().then(json => Promise.reject(json))
+            }
+        ).then(
+            function({url}) {
+                window.location = url
+            }
+        ).catch(
+            function(err) {
+                console.error(err.error)
+            }
+        )
     };
 
     const handleDeleteEvent = async () => {
