@@ -238,7 +238,7 @@ function Settings() {
                                 flexDirection="column"
                                 alignItems="center"
                             >
-                                <Heading>My Companies</Heading>
+                                <Heading mb="15px">My Companies</Heading>
                                 <ul>
                                     {userCompanies.map(company => (
                                         <CompanyItem key={company.id} company={company}/>
