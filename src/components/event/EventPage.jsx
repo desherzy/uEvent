@@ -20,7 +20,7 @@ import {useCompaniesStore} from "../../store/index.js";
 const EventPage = () => {
     const navigate = useNavigate();
     const { eventId } = useParams();
-    const { userId } = useAuthStore();
+    const { user } = useAuthStore();
     const { events, buyTicket, fetchEventUsers, eventUsers, deleteEvent } = useEventsStore();
     const { comments, fetchEventComments } = useCommentsStore();
     const { getCompanyById, userCompanies } = useCompaniesStore();
@@ -48,8 +48,9 @@ const EventPage = () => {
     }, [fetchEventUsers]);
 
     const handleBuyTicket = async () => {
+        console.log(user.id);
         fetch(
-            "http://localhost:3001/buy_tickets/:" + userId,
+            "http://localhost:3001/buy-tickets/:" + user.id,
             {
                 method: "POST",
                 headers: {
