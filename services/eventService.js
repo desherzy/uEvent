@@ -2,6 +2,7 @@ const Event = require('../models/Event');
 const Category = require('../models/Category');
 const EventCategory  = require('../models/EventCategory');
 const Ticket = require('../models/Ticket');
+const Comment = require('../models/Сomment');
 const User = require('../models/User');
 const ApiError = require("../exceptions/apiError");
 const mailService = require('../services/mailService');
@@ -93,8 +94,17 @@ class EventService {
 
     }
 
-    async deleteEvent(id){
+    async deleteEvent(eventId) {
+        const event = await Event.findByPk(eventId);
+        if (!event) {
+            throw ApiError.badRequest('Event is not found');
+        }
 
+        await Ticket.destroy({ where: { event_id: eventId } });
+        await Comment.destroy({ where: { event_id: eventId } });
+        await EventCategory.destroy({ where: { event_id: eventId } });
+
+        await Event.destroy({ where: { id: eventId } });
     }
 
     async findEventsAndSendNotifications() {

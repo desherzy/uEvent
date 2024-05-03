@@ -100,8 +100,11 @@ class EventController {
 
     async deleteEvent(req, res, next) {
         try {
+            const eventId = req.params.id;
 
-        } catch(e) {
+            await eventService.deleteEvent(eventId);
+            res.status(200).json({ message: 'Event is successfully removed' });
+        } catch (e) {
             next(e);
         }
     }
