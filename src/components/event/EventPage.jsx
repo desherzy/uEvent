@@ -140,10 +140,12 @@ const EventPage = () => {
 
             <Center>
                 <UserList eventUsers={eventUsers} />
+            </Center>
+
+            <Center>
                 {isUserCompany() && (
-                    <Button type="button" onClick={handleDeleteEvent}>Delete event</Button>
+                    <Button type="button" color='red' onClick={handleDeleteEvent} mb="5">Delete event</Button>
                 )}
-                
             </Center>
         </Box>
         <CommentForm eventId={eventId} />
